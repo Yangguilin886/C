@@ -1,0 +1,21 @@
+size_t my_strlen(char* p)
+{
+	int i=0,count=0;
+	while(*(p+i)!='\0')
+	{
+		count++;
+		i++;
+	}
+	return count;
+
+}
+#include <stdio.h>
+int main()
+{
+	char sum[100];
+	int n=0;
+	gets(sum);
+	n=my_strlen(sum);
+	printf("%d\n",n);
+	return 0;
+}
