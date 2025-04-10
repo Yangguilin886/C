@@ -1,0 +1,24 @@
+#include <stdio.h>
+char * my_strcat(char* p1,const char* p2)
+{
+	char* p3=p1;
+	while(*p3!='\0')
+	{
+		p3++;
+	}
+	while(*p3++=*p2++)
+	{
+		;
+	}
+	*p3='\0';
+	return p1;
+}
+int main()
+{
+	char str1[100],str2[100];
+	gets(str1);
+	gets(str2);
+	my_strcat(str1,str2);
+	printf("%s\n",str1);
+	return 0;
+}
