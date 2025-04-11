@@ -1,0 +1,23 @@
+#include <stdio.h>
+void* my_memcpy(void* p1,const void* p2,size_t n)
+{
+	void* s1=p1;
+	while(n--)
+	{
+		*(char*)p1=*(char*)p2;
+		p1=(char*)p1+1;
+		p2=(char*)p2+1;
+
+	}
+	return s1;
+}
+int main()
+{
+	int str1[100]={0},str2[]={1,2,3,4,5},i;
+	my_memcpy(str1,str2,20);
+	for(i=0;i<5;i++)
+	{
+		printf("%d ",str1[i]);
+	}
+	return 0;
+}
