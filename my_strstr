@@ -1,0 +1,38 @@
+#include <stdio.h>
+char* my_strstr(const char* str1,const char* str2)
+{
+	const char* p=str1;
+	const char* s1=str1;
+	const char* s2=str2;
+	while(*p)
+	{
+		s1=p;
+		s2=str2;
+		while(*s1==*s2 && *s2!='\0' && *s1!='\0')
+		{
+			s1++;
+			s2++;
+		}
+		if(*s2=='\0')
+		{
+			return (char*)p;
+		}
+		p++;
+	}
+	return NULL;
+}
+int main()
+{
+	char str1[100],str2[100];
+	char* p=NULL;
+	gets(str1);
+	gets(str2);
+	p=my_strstr(str1,str2);
+	if(p==NULL)
+	{
+		printf("找不到子串\n");
+	}
+	else
+		printf("%s\n",p);
+	return 0;
+}
