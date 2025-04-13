@@ -1,0 +1,26 @@
+#include <stdio.h>
+int main()
+{
+	int math,day,n;
+	double price;
+	scanf("%lf %d %d %d",&price,&math,&day,&n);
+	if(math==11&&day==11)
+	{
+		if(n&&n*0.7>50)
+		{
+			price=price*0.7-50;
+		}
+		else
+			price=price*0.7;
+	}
+	else if(math==12&&day==12)
+	{
+		if(n&&n*0.8>50)
+		{
+			price=price*0.8-50;
+		}
+		else
+			price=price*0.8;
+	}
+	printf("%.2f\n",price);
+}
