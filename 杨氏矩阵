@@ -1,0 +1,41 @@
+#include <stdio.h>
+struct point
+{
+	int x;
+	int y;
+};
+struct point Find_num(int sum[3][3],int r,int w,int k)
+{
+	int i,j,m;
+	struct point p={-1,-1};
+	for(i=0;i<r-1;i++)
+	{
+		for(j=w-1;j>=0;j--)
+		{
+			if(sum[i][j]<k)
+				break;
+			else
+			{
+				for(m=0;m<r;m++)
+				{
+					if(sum[m][j]==k)
+					{
+						p.x=m;
+						p.y=j;
+						return p;
+					}
+				}
+			}
+		}
+	}
+	return p;
+}
+int main()
+{
+	int sum[3][3]={1,2,3,4,5,6,7,8,9},k;
+	struct point ret;
+	scanf("%d",&k);
+	ret=Find_num(sum,3,3,k);
+	printf("%d %d\n",ret.x,ret.y);
+	return 0;
+}
