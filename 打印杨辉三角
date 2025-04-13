@@ -1,0 +1,28 @@
+#include <stdio.h>
+int main()
+{
+	int sum[100][100],i,j,n;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<i+1;j++)
+		{
+			if(j==0||i==j)
+			{
+				sum[i][j]=1;
+			}
+			else
+			{
+				sum[i][j]=sum[i-1][j-1]+sum[i-1][j];
+			}
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<i+1;j++)
+		{
+			printf("%d ",sum[i][j]);
+		}
+		printf("\n");
+	}
+}
