@@ -1,0 +1,28 @@
+#include <stdio.h>
+int main()
+{
+	int n,sum[100][100],i,j,flag=1;
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			scanf("%d",&sum[i][j]);
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<i;j++)
+		{
+			if(sum[i][j]!=0)
+			{
+				flag=0;
+			}
+		}
+	}
+	if(flag==1)
+		printf("yes\n");
+	else
+		printf("no\n");
+	return 0;
+}
