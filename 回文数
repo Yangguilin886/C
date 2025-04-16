@@ -1,0 +1,25 @@
+bool isPalindrome(int x) {
+    int* ret=malloc(sizeof(int)*10);
+    int i=0,flag=1,n;
+    if(x<0)
+    flag=0;
+    else
+    {
+      while(x>0)
+      {
+        ret[i]=x%10;
+        x/=10;
+        i++;
+      }
+      n=i;
+     for(i=0;i<n/2;i++)
+     {
+        if(ret[i]!=ret[n-1-i])
+        flag=0;
+     }
+    }
+    if(flag==1)
+    return true;
+    else
+    return false;
+}
