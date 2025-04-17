@@ -1,0 +1,27 @@
+bool isValid(char* s) {
+    char sum[10000];
+    int top=0;
+    for(int i=0;i<strlen(s);i++)
+    {
+        if(s[i]=='(')
+        {
+            sum[top++]=')';
+        }
+        else if(s[i]=='[')
+        {
+            sum[top++]=']';
+        }
+        else if(s[i]=='{')
+        {
+            sum[top++]='}';
+        }
+        else
+        {
+            if(top==0||s[i]!=sum[top-1])
+               return false;
+            else
+                top--;
+        }
+    }
+    return top==0;
+}
