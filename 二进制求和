@@ -1,0 +1,51 @@
+void reverse(char* a,int n)
+{
+    for(int i=0;i<n/2;i++)
+    {
+       char temp=a[i];
+       a[i]=a[n-1-i];
+       a[n-1-i]=temp;
+    }
+}
+char* addBinary(char* a, char* b) {
+    int len_a=strlen(a);
+    int len_b=strlen(b);
+    int len=fmax(len_a,len_b)+2;
+    int flag=0;
+    reverse(a,len_a);
+    reverse(b,len_b);
+    char* sum=(char*)malloc(sizeof(char)*len);
+    for(int i=0;i<len-2;i++)
+    {
+        int tmp;
+        if(i<len_a&&i<len_b)
+        {
+           tmp=(a[i]-'0')+(b[i]-'0')+flag;
+           sum[i]=tmp%2+'0';
+           flag=tmp/2;
+        }
+        else if(i<len_a)
+        {
+            tmp=(a[i]-'0')+flag;
+            sum[i]=tmp%2+'0';
+            flag=tmp/2;
+        }
+        else
+        {
+            tmp=(b[i]-'0')+flag;
+            sum[i]=tmp%2+'0';
+            flag=tmp/2;
+        }
+    }
+    if(flag==1)
+    {
+        sum[len-2]='1';
+    }
+    else
+    {
+        len--;
+    }
+    sum[len-1]='\0';
+    reverse(sum,len-1);
+    return sum;
+}
