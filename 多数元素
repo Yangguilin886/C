@@ -1,0 +1,28 @@
+//用插旗法求多数元素
+int majorityElement(int* nums, int numsSize) {
+    int flag=nums[0];//定义一个士兵的阵营
+    int flagnum=0;//定义‘士兵’的数量
+    int i=0;
+    while(i<numsSize)
+    {
+        if(nums[i]==flag)
+        {
+            flagnum++;//如果当前‘士兵’和插旗阵营相同，则士兵数量加一
+            i++;
+        }
+        else
+        {
+            if(flagnum==0)//如果当前‘士兵’人数为0，则插旗阵营换人
+            {
+                flag=nums[i];
+                i++;
+            }
+            else
+            {
+                flagnum--;//如果不为零，则当前‘士兵’人数减一
+                i++;
+            }
+        }
+    }
+    return flag;//返回当前‘士兵’的阵营
+}
