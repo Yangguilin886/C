@@ -1,0 +1,47 @@
+//暴力求解
+int singleNumber(int* nums, int numsSize) {
+    if(numsSize==1)
+    {
+        return nums[0];
+    }
+    for(int i;i<numsSize;i++)
+    {
+        int flag=1;
+        for(int j=0;j<numsSize;j++)
+        {
+            if(i==j)
+            {
+                continue;
+            }
+            else if(nums[i]==nums[j])
+            {
+                flag=0;
+                break;
+            }
+        }
+        if(flag==1)
+        {
+            return nums[i];
+        }
+    }
+    return 0;
+}
+//快速排序法
+int cmp(const void* a,const void* b)
+{
+    return *(int*)a-*(int*)b;
+}
+int singleNumber(int* nums, int numsSize) {
+    qsort(nums,numsSize,sizeof(int),cmp);
+    int n=nums[0];
+    for(int i=1;i<numsSize;i++)
+    {
+        if(n!=nums[i])
+        {
+            break;
+        }
+        i++;
+        n=nums[i];
+    }
+    return n;
+}
