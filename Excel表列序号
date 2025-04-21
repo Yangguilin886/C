@@ -1,0 +1,9 @@
+int titleToNumber(char* columnTitle) {
+    int n=strlen(columnTitle);
+    int m=0,i=0;
+    for(int i=0;i<n;i++)
+    {
+       m=m*26+(columnTitle[i]-'A'+1);//每次循环都将当前值乘26，然后加上当前字符对应的数字
+    }
+    return m;
+}
