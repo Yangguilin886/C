@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <string.h>
+int my_atoi(const char* str)
+{
+	int m = 0;
+	for (int i = 0; i < strlen(str); i++)
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+		{
+			m = m * 10 + str[i] - '0';
+		}
+		else if (str[i] == ' ')
+		{
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return m;
+}
+int main()
+{
+	char sum[] = { " 456ab2cde" };
+	int n;
+	n = my_atoi(sum);
+	printf("%d\n", n);
+	return 0;
+}
