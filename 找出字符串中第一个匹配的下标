@@ -1,0 +1,59 @@
+//暴力求解
+int strStr(char* haystack, char* needle) {
+    int n=strlen(haystack),m=strlen(needle);
+    for(int i=0;i+m<=n;i++)
+    {
+        int flag=1;
+        for(int j=0;j<m;j++)
+        {
+            if(haystack[j+i]!=needle[j])
+            {
+                flag=0;
+                break;
+            }
+        }
+        if(flag==1)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+//KMP算法
+int strStr(char* haystack, char* needle) {
+    int n=strlen(haystack),m=strlen(needle);
+    int next[m+1];
+    next[0]=-1;
+    next[1]=0;
+    int i=2,k=0;
+    while(i<=m)
+    {
+        if(k==-1||needle[i-1]==needle[k])
+        {
+            next[i]=k+1;
+            i++;
+            k++;
+        }
+        else{
+            k=next[k];
+        }
+    }
+    int j=0;
+    i=0;
+    while(i<n&&j<m)
+    {
+        if(j==-1||haystack[i]==needle[j])
+        {
+            i++;
+            j++;
+        }
+        else{
+            j=next[j];
+        }
+    }
+    if(j>=m)
+    {
+        return i-j;
+    }
+    return -1;
+}
