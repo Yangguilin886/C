@@ -1,0 +1,25 @@
+int get_next(int n)
+{
+    int sum=0;
+    while(n>0)
+    {
+        sum+=(n%10)*(n%10);
+        n/=10;
+    }
+    return sum;
+}
+bool isHappy(int n) {
+    int fast=n,slow=n;
+    do
+    {
+        slow=get_next(slow);//慢针走一步
+        fast=get_next(fast);//快针走两步
+        fast=get_next(fast);
+    }while(slow!=fast&&fast!=1);//如果两针相遇表示是一个循环不是一个快乐数
+    if(fast==1)
+    {
+        return true;
+    }
+    else
+    return false;
+}
