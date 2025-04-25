@@ -1,0 +1,30 @@
+#include <stdio.h>
+void copy(void)
+{
+	FILE* pf = fopen("date_copy.txt", "w");
+	if (pf == NULL)
+	{
+		perror("fopen1");
+		return;
+	}
+	FILE* pw = fopen("data.txt", "r");
+	if (pw == NULL)
+	{
+		perror("fopen2");
+		return;
+	}
+	int ch = 0;
+	while ((ch = fgetc(pw)) != EOF)
+	{
+		fputc(ch, pf);
+	}
+	fclose(pf);
+	pf = NULL;
+	fclose(pw);
+	pw = NULL;
+}
+	int main()
+	{
+		copy();
+		return 0;
+	}
