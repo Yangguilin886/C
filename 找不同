@@ -1,0 +1,56 @@
+int compare(const void* a,const void* b)
+{
+    return *(char*)a-*(char*)b;
+}
+char findTheDifference(char* s, char* t) {
+    int n=strlen(s);
+    if(n<1)
+    {
+        return t[0];
+    }
+    qsort(s,n,sizeof(char),compare);
+    qsort(t,n+1,sizeof(char),compare);
+    for(int i=0;i<n;i++)
+    {
+       if(s[i]!=t[i])
+       {
+        return t[i];
+       }
+    }
+    return t[n];
+}
+//计数
+char findTheDifference(char* s, char* t) {
+    int n=strlen(s);
+    int m=strlen(t);
+    int ret[26];
+    memset(ret,0,26);
+    for(int i=0;i<n;i++)
+    {
+        ret[(s[i]-'a')]++;
+    }
+    for(int j=0;j<m;j++)
+    {
+        ret[(t[j]-'a')]--;
+        if(ret[(t[j]-'a')]<0)
+        {
+            return t[j];
+        }
+    }
+    return 0;
+}
+//求和
+char findTheDifference(char* s, char* t) {
+    int n=strlen(s);
+    int m=strlen(t);
+    char p1=0,p2=0;
+    for(int i=0;i<n;i++)
+    {
+        p1+=s[i];
+    }
+    for(int j=0;j<m;j++)
+    {
+        p2+=t[j];
+    }
+    return p2-p1;
+}
