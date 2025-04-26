@@ -1,0 +1,31 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+ int compare(const void* a,const void* b)
+ {
+    return *(int*)a-*(int*)b;
+ }
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    qsort(nums1,nums1Size,sizeof(int),compare);
+    qsort(nums2,nums2Size,sizeof(int),compare);
+    *returnSize=0;
+    int* ret=(int*)malloc(sizeof(int)*fmax(nums1Size,nums2Size));
+    int p1=0,p2=0;
+    while(p1<nums1Size&&p2<nums2Size)
+    {
+        if(nums1[p1]==nums2[p2])
+        {
+            ret[(*returnSize)++]=nums1[p1];
+            p1++;
+            p2++;
+        }
+        else if(nums1[p1]>nums2[p2])
+        {
+            p2++;
+        }
+        else{
+            p1++;
+        }
+    }
+    return ret;
+}
