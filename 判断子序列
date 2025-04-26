@@ -1,0 +1,21 @@
+bool isSubsequence(char* s, char* t) {
+    int n=strlen(s);
+    int m=strlen(t);
+    int ret=0,i=0;
+    while(ret<n&&i<m)
+    {
+        if(s[ret]==t[i])
+        {
+            ret++;
+        }
+        i++;
+    }
+    if(ret==n)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
