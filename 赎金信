@@ -1,0 +1,26 @@
+bool canConstruct(char* ransomNote, char* magazine) {
+    int n=strlen(ransomNote);
+    int m=strlen(magazine);
+    int ret=0,i=0;
+    while(ret<n&&i<m)
+    {
+        if(ransomNote[ret]==magazine[i])
+        {
+            magazine[i]='A';
+            ret++;
+            i=0;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    if(ret==n)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
