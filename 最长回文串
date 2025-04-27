@@ -1,0 +1,14 @@
+int longestPalindrome(char* s) {
+    int n=strlen(s);
+    int ret=0;
+    int sum[128];
+    for(int i=0;i<n;i++)
+    {
+        sum[(s[i])]++;//记录每个字符出现的次数
+    }
+    for(int i=0;i<128;i++)
+    {
+       ret=ret+sum[i]-sum[i]%2;//如果为偶数直接加，如果为奇数减一
+    }
+    return ret+(ret!=n);//如果ret等于数组长度直接返回如果不相等说明话有剩余可以将任意一个剩余的放在中间构成回文串因此要加一
+}
