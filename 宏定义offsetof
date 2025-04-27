@@ -1,0 +1,18 @@
+#include <stdio.h>
+#define my_offsetof(type,n) ((size_t)&((type*)0)->n)
+////这里（type*）0含义是将0强制转换成type*类型的指针，也就是相当于该结构体起始地址为0
+////((type*)0)->n的含义是用该结构体指针指向其成员n
+////&((type*)0)->n是取出成员的地址
+////(size_t)&((type*)0)->n是将成员n的地址转换成size_t类型
+int main()
+{
+ struct S
+ {
+	int a;
+	char b;
+	int c;
+ };
+
+ printf("%d\n", my_offsetof(struct S, b));
+	return 0;
+}
