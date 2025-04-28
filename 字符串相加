@@ -1,0 +1,48 @@
+char* addStrings(char* num1, char* num2) {
+    int len1=strlen(num1),len2=strlen(num2);
+    int len3=(len1>len2?len1:len2)+2;
+    int i=len1-1,j=len2-1,k=len3-2;
+    char* sum=(char*)malloc(sizeof(char)*len3);
+    int flag=0,x;
+    while(i>=0&&j>=0)
+    {
+        x=((num1[i]-'0')+(num2[j]-'0')+flag)%10;
+        flag=((num1[i]-'0')+(num2[j]-'0')+flag)/10;
+        sum[k]=x+'0';
+        i--;
+        j--;
+        k--;
+    }
+    if(i>=0)
+    {
+        while(i>=0)
+        {
+            x=((num1[i]-'0')+flag)%10;
+            flag=((num1[i]-'0')+flag)/10;
+            sum[k]=x+'0';
+            i--;
+            k--;
+        }
+    }
+    else
+    {
+        while(j>=0)
+        {
+            x=((num2[j]-'0')+flag)%10;
+            flag=((num2[j]-'0')+flag)/10;
+            sum[k]=x+'0';
+            j--;
+            k--;
+        }
+    }
+    sum[len3-1]='\0';
+    if(flag)
+    {
+        sum[k]='1';
+        return &sum[k];
+    }
+    else
+    {
+        return &sum[k+1];
+    }
+}
