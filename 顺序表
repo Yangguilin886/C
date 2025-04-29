@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+typedef int SLDataTYPE;
+typedef struct SeqList
+{
+	SLDataTYPE* arr;
+	int size;
+	int capacity;
+}SeqList;
+void SLIist(SeqList* ps)
+{
+	ps->arr = NULL;
+	ps->size = 0;
+	ps->capacity = 0;
+}
+void SLDestroy(SeqList* ps)
+{
+	if (ps->arr)
+	{
+		free(ps->arr);
+		ps->arr = NULL;
+	}
+	ps->size = 0;
+	ps->capacity = 0;
+}
+void SLPushBack(SeqList* ps, SLDataTYPE x)
+{
+	assert(ps);
+	if (ps->size == ps->capacity)
+	{
+		int newcapacity = ps->arr == NULL ? 4 : ps->capacity * 2;
+		SLDataTYPE* newps =(SLDataTYPE*) realloc(ps->arr, sizeof(SLDataTYPE)*newcapacity);
+		if (newps == NULL)
+		{
+			perror("realloc fail!");
+			exit(1);
+		}
+		ps->arr = newps;
+		ps->capacity = newcapacity;
+	}
+	ps->arr[ps->size] = x;
+	ps->size++;
+}
+void SLPushFront(SeqList* ps, SLDataTYPE x)
+{
+	if (ps->size == ps->capacity)
+	{
+		int newcapacity = ps->arr == NULL ? 4 : ps->capacity * 2;
+	    SLDataTYPE* newps = (SLDataTYPE*)realloc(ps->arr, sizeof(SLDataTYPE)*newcapacity);
+		if (newps == NULL)
+		{
+			perror("realloc fail!");
+			exit(1);
+		}
+    	ps->arr = newps;
+		ps->capacity = newcapacity;
+	}
+	for (int i = ps->size; i > 0; i--)
+	{
+		ps->arr[i] = ps->arr[i-1];
+	}
+	ps->arr[0] = x;
+	ps->size++;
+ }
+void SLPopBack(SeqList* ps)
+{
+	ps->size--;
+}
+void SLPopFront(SeqList* ps)
+{
+	assert(ps);
+	assert(ps->size);
+	for (int i = 0; i < ps->size-1; i++)
+	{
+		ps->arr[i] = ps->arr[i + 1];
+	}
+	ps->size--;
+}
+int main()
+{
+	SeqList ps;
+	//顺序表初始化
+	SLIist(&ps);
+	//头部插入删除/尾部插入删除
+	SLPushBack(&ps,1);//尾插
+	SLPushBack(&ps,2);
+	SLPushBack(&ps, 3);
+	SLPushBack(&ps, 4);
+	SLPushFront(&ps, 5);//头插
+	SLPushFront(&ps, 6);
+	for (int i = 0; i < ps.size; i++)
+	{
+		printf("%d ", ps.arr[i]);
+	}
+	printf("\n");
+	SLPopBack(&ps);//尾删
+	SLPopFront(&ps);//头删
+	for (int i = 0; i < ps.size; i++)
+	{
+		printf("%d ", ps.arr[i]);
+	}
+	//顺序表销毁
+	SLDestroy(&ps);
+
+}
