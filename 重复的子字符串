@@ -1,0 +1,23 @@
+bool repeatedSubstringPattern(char* s) {
+    int n=strlen(s);
+    for(int i=1;i<=n/2;i++)//i表示子串的长度
+    {
+        if(n%i==0)//确保字符串长度为子串长度的整数倍
+        {
+           bool flag=true;
+           for(int j=i;j<n;j++)
+           {
+            if(s[j]!=s[j-i])//如果字符串由子串重复组成则s[j]==s[j-i]
+            {
+                flag=false;
+                break;
+            }
+           }
+           if(flag)
+           {
+            return true;
+           }
+        }
+    }
+    return false;
+}
