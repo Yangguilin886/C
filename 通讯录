@@ -1,0 +1,153 @@
+#include "contact.h"
+void expand(Contact* ps)
+{
+	assert(ps);
+	if (ps->size == ps->capacity)
+	{
+		int newcapacity = ps->arr == NULL ? 4 : ps->capacity * 2;
+		peoInfo* newps = (peoInfo*)realloc(ps->arr, sizeof(peoInfo) * newcapacity);
+		if (newps == NULL)
+		{
+			perror("realloc fail!");
+			exit(1);
+		}
+		ps->arr = newps;
+		ps->capacity = newcapacity;
+	}
+}
+void SlpushBack(Contact* ps, peoInfo x)
+{
+	expand(ps);
+	ps->arr[ps->size] = x;
+	ps->size++;
+}
+void ContactInit(Contact* ps)
+{
+	ps->arr = NULL;
+	ps->size = 0;
+	ps->capacity = 0;
+}
+void ContactDesTroy(Contact* ps)
+{
+	free(ps->arr);
+	ps->arr = NULL;
+	ps->size = 0;
+	ps->capacity = 0;
+}
+void ContactAdd(Contact* ps)
+{
+	peoInfo info;
+	printf("请输入要添加的联系人姓名:\n");
+	scanf("%s", info.name);
+
+	printf("请输入要添加的联系人性别:\n");
+	scanf("%s", info.gender);
+
+	printf("请输入要添加的联系人年龄:\n");
+	scanf("%d", &info.age);
+
+	printf("请输入要添加的联系人电话:\n");
+	scanf("%s", info.tel);
+
+	printf("请输入要添加的联系人的住址:\n");
+	scanf("%s", info.addr);
+
+	SlpushBack(ps, info);
+}
+int FindByTel(Contact* ps, char tel[])
+{
+	for (int i = 0; i < ps->size; i++)
+	{
+		if (strcmp(ps->arr[i].tel, tel) == 0)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+void SLErase(Contact* ps, int flag)
+{
+	for (int i = flag; i < ps->size - 1; i++)
+	{
+		ps->arr[i] = ps->arr[i + 1];
+	}
+	ps->size--;
+}
+void ContactDel(Contact* ps)
+{
+	printf("请输入你要删除的联系人电话\n");
+	char tel[TEL_MAX];
+	scanf("%s", tel);
+	int flag=FindByTel(ps, tel);
+	if (flag < 0)
+	{
+		printf("联系人不存在\n");
+		return;
+	}
+	else
+	{
+		SLErase(ps, flag);
+		printf("删除成功\n");
+	}
+}
+void ContactShow(Contact* ps)
+{
+	printf("姓名 性别 年龄 电话 地址\n");
+	for (int i = 0; i < ps->size; i++)
+	{
+		printf("%s %s %d %s %s\n",
+			ps->arr[i].name,
+			ps->arr[i].gender,
+			ps->arr[i].age,
+			ps->arr[i].tel,
+			ps->arr[i].addr
+		);
+	}
+}
+void ContactModify(Contact* ps)
+{
+	printf("请输入你要修改的联系人电话\n");
+	char tel[TEL_MAX];
+	scanf("%s", tel);
+	int flag = FindByTel(ps, tel);
+	if (flag < 0)
+	{
+		printf("联系人不存在\n");
+		return;
+	}
+	printf("请输入新的要添加的联系人姓名:\n");
+	scanf("%s", ps->arr[flag].name);
+
+	printf("请输入新的要添加的联系人性别:\n");
+	scanf("%s", ps->arr[flag].gender);
+
+	printf("请输入新的要添加的联系人年龄:\n");
+	scanf("%d", &ps->arr[flag].age);
+
+	printf("请输入新的要添加的联系人电话:\n");
+	scanf("%s", ps->arr[flag].tel);
+
+	printf("请输入新的要添加的联系人的住址:\n");
+	scanf("%s", ps->arr[flag].addr);
+	printf("修改成功\n");
+}
+void ContactFind(Contact* ps)
+{
+	char tel[TEL_MAX];
+	printf("请输入你要查找的联系人电话\n");
+	scanf("%s", tel);
+	int flag = FindByTel(ps, tel);
+	if (flag < 0)
+	{
+		printf("联系人不存在\n");
+		return;
+	}
+	printf("姓名 性别 年龄 电话 地址\n");
+	printf("%s %s %d %s %s\n",
+			ps->arr[flag].name,
+			ps->arr[flag].gender,
+			ps->arr[flag].age,
+			ps->arr[flag].tel,
+			ps->arr[flag].addr
+		);
+}
