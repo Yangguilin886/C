@@ -1,0 +1,48 @@
+char* licenseKeyFormatting(char* s, int k) {
+    int n=strlen(s);
+    int m=0,j=0;
+    for(int i=0;i<n;i++)
+    {
+        if(s[i]>='a'&&s[i]<='z')
+        {
+            s[i]-=('a'-'A');
+        }
+        if(s[i]!='-')
+        {
+            m++;
+            s[j++]=s[i];
+        }
+    }
+    s[j]='\0';
+    char* ret=malloc(sizeof(char)*2*n);
+    int flag=0;
+    int i=0;
+    if(m%k!=0)
+    {
+        while(flag<m%k)
+        {
+            ret[i++]=s[flag++];
+        }
+        ret[i++]='-';
+    }
+    int a=0;
+    for(;flag<j;flag++)
+    {
+        ret[i++]=s[flag];
+        a++;
+        if(a%k==0)
+        {
+            a=0;
+            ret[i++]='-';
+        }
+    }
+    if(m!=0)
+    {
+        ret[i-1]='\0';
+    }
+    else
+    {
+        ret[i]='\0';
+    }
+    return ret;
+}
