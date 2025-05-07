@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
+    struct ListNode* p1=list1,*p2=list2;
+    struct ListNode* newhead=NULL;
+    struct ListNode* newtal=NULL;
+    while(p1&&p2)
+    {
+        if(p1->val<p2->val)
+        {
+            if(newhead==NULL)
+            {
+                newhead=newtal=p1;
+            }
+            else
+            {
+                newtal->next=p1;
+                newtal=newtal->next;
+            }
+            p1=p1->next;
+        }
+        else
+        {
+            if(newhead==NULL)
+            {
+                newhead=newtal=p2;
+            }
+            else
+            {
+                newtal->next=p2;
+                newtal=newtal->next;
+            }
+            p2=p2->next;
+        }
+    }
+    if(p1)
+    {
+         if(newhead==NULL)
+        {
+            newhead=newtal=p1;
+        }
+        else
+        {
+            newtal->next=p1;
+            newtal=newtal->next;
+        }
+    }
+    else if(p2)
+    {
+        if(newhead==NULL)
+        {
+            newhead=newtal=p2;
+        }
+        else
+        {
+            newtal->next=p2;
+            newtal=newtal->next;
+        }
+    }
+    return newhead;
+}
