@@ -1,0 +1,91 @@
+//方法一：创建大链表跟小链表分别存放最后合并
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* partition(struct ListNode* head, int x) {
+    if(head==NULL)
+    {
+        return NULL;
+    }
+    struct ListNode* lesshead,*lesstail;
+    lesstail=lesshead=malloc(sizeof(struct ListNode));
+    struct ListNode* greaterhead,*greatertail;
+    greatertail=greaterhead=malloc(sizeof(struct ListNode));
+    struct ListNode* prve=head;
+    while(prve)
+    {
+        if(prve->val<x)
+        {
+            lesstail->next=prve;
+            lesstail=lesstail->next;
+        }
+        else
+        {
+            greatertail->next=prve;
+            greatertail=greatertail->next;
+        }
+        prve = prve->next;
+    }
+    greatertail->next=NULL;
+    lesstail->next=greaterhead->next;
+    head=lesshead->next;
+    free(lesshead);
+    free(greaterhead);
+    lesshead=greaterhead=NULL;
+    return head;
+}
+//方法二：使用一个指针遍历链表如果大于x则将该链表尾插
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* partition(struct ListNode* head, int x) {
+    if(head==NULL)
+    {
+        return head;
+    }
+    struct ListNode* prve=head;
+    struct ListNode* newhead=head;
+    struct ListNode* puck=NULL;
+    while(prve->next)
+    {
+        prve=prve->next;
+    }
+    struct ListNode* tail=prve;
+    struct ListNode* newtail=tail;
+    prve=head;
+    while(prve!=tail)
+    {
+        if(prve->val>=x)
+        {
+            struct ListNode* next=prve->next;
+            if(puck==NULL)
+            {
+                newhead=next;
+            }
+            else
+            {
+                puck->next=next;
+            }
+            newtail->next=prve;
+            newtail=newtail->next;
+            newtail->next=NULL;
+            prve=next;
+        }
+        else
+        {
+            puck=prve;
+            prve=prve->next;
+        }
+    }
+
+    return newhead;
+}
+方法三：定义一个新链表如果大于x就尾插如果小于x就头插
