@@ -1,0 +1,173 @@
+#include <stdio.h>
+#include "text.h"
+#include "assert.h"
+#include <stdlib.h>
+void SLTPrint(SLTNode* ps)
+{
+	assert(ps);
+	SLTNode* pcur = ps;
+	while (pcur)
+	{
+		printf("%d->", pcur->num);
+		pcur = pcur->next;
+	}
+	printf("NULL\n");
+}
+void SLTPushBack(SLTNode** ps, SLTDataType x)
+{
+	assert(ps);
+	SLTNode* prve = malloc(sizeof(SLTNode));
+	prve->num = x;
+	prve->next = NULL;
+	if (*ps == NULL)
+	{
+		*ps = prve;
+	}
+	else
+	{
+		SLTNode* p1 = *ps;
+		while (p1->next)
+		{
+			p1 = p1->next;
+		}
+		p1->next = prve;
+	}
+}
+void SLTPushFront(SLTNode** ps, SLTDataType x)
+{
+	assert(ps);
+	SLTNode* prve = (SLTNode*)malloc(sizeof(SLTNode));
+	prve->num = x;
+	prve->next = *ps;
+	*ps = prve;
+}
+void SLTPopBack(SLTNode** ps)
+{
+	assert(*ps);
+	SLTNode* prve = *ps;
+	SLTNode* p1=*ps;
+	while (prve->next)
+	{
+		p1 = prve;
+		prve = prve->next;
+	}
+	p1->next = NULL;
+}
+void SLTPopFront(SLTNode** ps)
+{
+	assert(*ps);
+	assert(ps);
+	SLTNode* prve = *ps;
+	*ps = prve->next;
+}
+SLTNode* SLTFind(SLTNode* ps, SLTDataType x)
+{
+	assert(ps);
+	SLTNode* prve = ps;
+	while (prve)
+	{
+		if (prve->num == x)
+		{
+			return prve;
+		}
+		prve = prve->next;
+	}
+	return NULL;
+}
+void SLTInsert(SLTNode** ps, SLTNode* pos, SLTDataType x)
+{
+	assert(ps);
+	assert(*ps);
+	SLTNode* prve = *ps;
+	SLTNode* ret = malloc(sizeof(SLTNode));
+	ret->num = x;
+	if (pos == *ps)
+	{
+		SLTPushFront(ps,x);
+	}
+	else
+	{
+		while (prve->next != pos)
+		{
+			prve = prve->next;
+		}
+		ret->next = pos;
+		prve->next = ret;
+	}
+}
+void SLTErase(SLTNode** ps, SLTNode* pos)
+{
+	assert(ps);
+	assert(*ps);
+	SLTNode* prve = *ps;
+	if (pos == *ps)
+	{
+		SLTPopFront(ps);
+	}
+	else
+	{
+		while (prve->next != pos)
+		{
+			prve = prve->next;
+		}
+		prve->next = pos->next;
+		free(pos);
+		pos = NULL;
+	}
+}
+void SLTInsertAfter(SLTNode* pos, SLTDataType x)
+{
+	SLTNode* prve = malloc(sizeof(SLTNode));
+	SLTNode* p1 = pos->next;
+	prve->num = x;
+	pos->next = prve;
+	prve->next = p1;
+}
+void SLTEraseAfter(SLTNode* pos)
+{
+	SLTNode* p1 = pos->next;
+	p1 = p1->next;
+	pos->next = p1;
+}
+void SListDesTroy(SLTNode** ps)
+{
+	assert(*ps);
+	SLTNode* p1 = *ps;
+	while (*ps)
+	{
+		p1 =(*ps)->next;
+		free(*ps);
+		*ps = p1;
+	}
+	p1 = NULL;
+}
+int main()
+{
+	SLTNode* ps=NULL;
+	SLTPushBack(&ps, 1);
+	SLTPushBack(&ps, 2);
+	SLTPushBack(&ps, 3);
+	SLTPrint(ps);
+	SLTPushFront(&ps, 4);
+	SLTPrint(ps);
+	SLTPopBack(&ps);
+	SLTPopFront(&ps);
+	SLTPrint(ps);
+	SLTNode* find = SLTFind(ps, 2);
+	//if (find == NULL)
+	//{
+	//	printf("没找到\n");
+	//}
+	//else
+	//{
+	//	printf("找到了\n");
+	//}
+	SLTInsert(&ps, find, 5);
+	SLTPrint(ps);
+	/*SLTErase(&ps, find);*/
+	SLTInsertAfter(find,7);
+	SLTPrint(ps);
+	SLTEraseAfter(find);
+	SLTPrint(ps);
+	SListDesTroy(&ps);
+}
