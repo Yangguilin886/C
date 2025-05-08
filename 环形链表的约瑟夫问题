@@ -1,0 +1,52 @@
+/**
+ * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+ *
+ * 
+ * @param n int整型 
+ * @param m int整型 
+ * @return int整型
+ */
+ #include <string.h>
+struct SL
+{
+    int sum;
+    struct SL* next;
+};
+struct SL* ByNode(int x)
+{
+    struct SL* ret=malloc(sizeof(struct SL));
+    ret->sum=x;
+    ret->next=NULL;
+    return ret;
+}
+int ysf(int n, int m ) {
+    // write code here
+    struct SL* head=ByNode(1);
+    struct SL* ptial=head;
+    for(int i=2;i<=n;i++)
+    {
+        ptial->next=ByNode(i);
+        ptial=ptial->next;
+    }
+    ptial->next=head;
+    int flag=1;
+    struct SL* ps=ptial;
+    struct SL* puck=head;
+    while(ps->next!=ps)
+    {
+       if(flag==m)
+       {
+        flag=1;
+        ps->next=puck->next;
+        free(puck);
+        puck=ps->next;
+       }
+       else
+       {
+          ps=puck;
+          puck=puck->next;
+          flag++;
+       }
+    }
+    return ps->sum;
+}
