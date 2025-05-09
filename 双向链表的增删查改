@@ -1,0 +1,120 @@
+#include "text.h"
+LTNode* ByNode(int x)
+{
+	LTNode* ret =(LTNode*) malloc(sizeof(LTNode));
+	ret->num = x;
+	ret->next = ret->prev = ret;
+	return ret;
+}
+LTNode* LTFind(LTNode* phead, int x)
+{
+	assert(phead && phead->next != phead);
+	LTNode* p1 = phead->next;
+	while (p1 != phead)
+	{
+		if (p1->num == x)
+		{
+			return p1;
+		}
+		p1 = p1->next;
+	}
+	return NULL;
+}
+void LTPrint(LTNode* phead)
+{
+	LTNode* p1 = phead->next;
+	while (p1 != phead)
+	{
+		printf("%d->", p1->num);
+		p1 = p1->next;
+	}
+	printf("\n");
+}
+void LTInit(LTNode** phead)
+{
+	*phead=ByNode(-1);
+}
+void LTPushBack(LTNode* phead, LTDataType x)
+{
+	LTNode* node=ByNode(x);
+	node->prev = phead->prev;
+	node->next = phead;
+	phead->prev->next = node;
+	phead->prev = node;
+}
+void LTPushFront(LTNode* phead, LTDataType x)
+{
+	LTNode* node = ByNode(x);
+	node->prev = phead;
+	node->next = phead->next;
+	phead->next->prev = node;
+	phead->next = node;
+}
+void LTPopBack(LTNode* phead)
+{
+	assert(phead && phead->next != phead);
+	LTNode* del = phead->prev;
+	del->prev->next = phead;
+	phead->prev = del->prev;
+	free(del);
+	del = NULL;
+}
+void LTPopFront(LTNode* phead)
+{
+	assert(phead && phead->next != phead);
+	LTNode* del = phead->next;
+	phead->next = del->next;
+	del->next->prev = phead;
+}
+void LTInsert(LTNode* pos, LTDataType x)
+{
+	assert(pos);
+	LTNode* node = ByNode(x);
+	node->next = pos->next;
+	node->prev = pos;
+	pos->next->prev = node;
+	pos->next = node;
+}
+void LTErase(LTNode* pos)
+{
+	assert(pos);
+	pos->prev->next = pos->next;
+	pos->next->prev = pos->prev;
+}
+void LTDestroy(LTNode* phead)
+{
+	LTNode* p1 = phead->next;
+	while (p1 != phead)
+	{
+		LTNode* next = p1->next;
+		free(p1);
+		p1 = next;
+	}
+}
+int main()
+{
+	LTNode* ps = NULL;
+	LTInit(&ps);
+	LTPushBack(ps, 1);
+	LTPushBack(ps, 2);
+	LTPushBack(ps, 3);
+	LTPushFront(ps, 5);
+	LTPopBack(ps);
+	LTPopFront(ps);
+	LTPrint(ps);
+	LTNode* find = LTFind(ps, 1);
+	if (find == NULL)
+	{
+		printf("没找到/n");
+	}
+	else
+	{
+		printf("找到了\n");
+	}
+	LTInsert(find, 55);
+	LTErase(find);
+	LTPrint(ps);
+	LTDestroy(ps);
+	free(ps);
+	ps = NULL;
+}
