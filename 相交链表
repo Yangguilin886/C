@@ -1,0 +1,62 @@
+//暴力求解
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    struct ListNode* p1=headA;
+    struct ListNode* p2=headB;
+    while(p1)
+    {
+        p2=headB;
+        while(p2)
+        {
+            if(p1==p2)
+            {
+                return p1;
+            }
+            p2=p2->next;
+        }
+        p1=p1->next;
+    }
+    return NULL;
+}
+//求两个链表的长度
+struct ListNode *getIntersectionNode(struct ListNode *headA, struct ListNode *headB) {
+    int size1=0,size2=0;
+    struct ListNode* p1=headA;
+    struct ListNode* p2=headB;
+    while(p1)
+    {
+        size1++;
+        p1=p1->next;
+    }
+    while(p2)
+    {
+        size2++;
+        p2=p2->next;
+    }
+    p1=headA;
+    p2=headB;
+    for(int i=0;i<size1-size2;i++)
+    {
+        p1=p1->next;
+    }
+    for(int i=0;i<size2-size1;i++)
+    {
+        p2=p2->next;
+    }
+    while(p1)
+    {
+        if(p1==p2)
+        {
+            return p1;
+        }
+        p1=p1->next;
+        p2=p2->next;
+    }
+    return NULL;
+}
