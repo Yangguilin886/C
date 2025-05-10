@@ -1,0 +1,172 @@
+#include "text.h"
+void InitContact(contact** ps)
+{
+	PeoInfo* ret = malloc(sizeof(PeoInfo));
+	memset(ret, 0, sizeof(PeoInfo));
+}
+contact* ByNode(PeoInfo info)
+{
+	contact* ret = malloc(sizeof(contact));
+	ret->arr = info;
+	ret->next = NULL;
+	return ret;
+
+}
+contact* FindByTel(contact* con,char tel[])
+{
+	contact* p1 = con;
+	while (p1)
+	{
+		if (strcmp(p1->arr.tel,tel)==0)
+		{
+			return p1;
+		}
+		p1 = p1->next;
+	}
+	return NULL;
+}
+void ListPushBack(contact** ps, PeoInfo info)
+{
+	contact* node = ByNode(info);
+	if (*ps == NULL)
+	{
+		*ps = node;
+	}
+	else
+	{
+		contact* p1 = *ps;
+		while (p1->next)
+		{
+			p1 = p1->next;
+		}
+		p1->next = node;
+	}
+}
+void SLTErase(contact** con, contact* pos)
+{
+	assert(con && *con);
+	contact* p1 = *con;
+	if (pos == *con)
+	{
+		*con = (*con)->next;
+		free(pos);
+		pos = NULL;
+	}
+	else
+	{
+		while (p1->next != pos)
+		{
+			p1 = p1->next;
+		}
+		p1->next = pos->next;
+		free(pos);
+		pos = NULL;
+	}
+}
+void AddContact(contact** con)
+{
+	PeoInfo info;
+	printf("请输入你要添加的联系人姓名\n");
+	scanf("%s", info.name);
+	printf("请输入你要添加的联系人性别\n");
+	scanf("%s", info.sex);
+	printf("请输入你要添加的联系人年龄\n");
+	scanf("%d", &info.age);
+	printf("请输入你要添加的联系人电话\n");
+	scanf("%s", info.tel);
+	printf("请输入你要添加的联系人地址\n");
+	scanf("%s", info.addr);
+	ListPushBack(con, info);
+}
+void DelContact(contact** con)
+{
+	assert(con && *con);
+	char tel[TEL_MAX];
+	printf("请输入你要删除的联系人电话\n");
+	scanf("%s", tel);
+	contact* pos = FindByTel(*con, tel);
+	if (pos == NULL)
+	{
+		printf("要删除的用户不存在\n");
+		return;
+	}
+	SLTErase(con, pos);
+	printf("删除成功！\n");
+}
+void ShowContact(contact* con)
+{
+	printf("姓名 性别 年龄 电话 地址\n");
+	contact* prev = con;
+	while (prev)
+	{
+		printf("%s %s %d %s %s\n", prev->arr.name, prev->arr.sex, prev->arr.age, prev->arr.tel, prev->arr.addr);
+		prev = prev->next;
+	}
+}
+void FindContact(contact* con)
+{
+	char tel[TEL_MAX];
+	printf("请输入你要查找的联系人电话\n");
+	scanf("%s", tel);
+	contact* node = FindByTel(con, tel);
+	if (node == NULL)
+	{
+		printf("要查找的联系人不存在！\n");
+		return;
+	}
+	else
+	{
+		printf("姓名 性别 年龄 电话 地址\n");
+		printf("%s %s %d %s %s\n", node->arr.name, node->arr.sex, node->arr.age, node->arr.tel, node->arr.addr);
+	}
+}
+void ModifyContact(contact** con)
+{
+	char tel[TEL_MAX];
+	printf("请输入你要修改的联系人电话\n");
+	scanf("%s", tel);
+	contact* node = FindByTel(*con, tel);
+	if (node == NULL)
+	{
+		printf("要修改的联系人不存在,新建联系人信息\n");
+		AddContact(con);
+	}
+	else
+	{
+		PeoInfo info;
+		printf("请输入你要修改的联系人姓名\n");
+		scanf("%s", info.name);
+		printf("请输入你要修改的联系人性别\n");
+		scanf("%s", info.sex);
+		printf("请输入你要修改的联系人年龄\n");
+		scanf("%d", &info.age);
+		printf("请输入你要修改的联系人电话\n");
+		scanf("%s", info.tel);
+		printf("请输入你要修改的联系人地址\n");
+		scanf("%s", info.addr);
+		node->arr = info;
+	}
+	printf("修改成功！\n");
+}
+void DestroyContact(contact** con)
+{
+	while (*con)
+	{
+		contact* next = (*con)->next;
+		free(*con);
+		*con = next;
+	}
+	*con = NULL;
+}
+int main()
+{
+	contact* con = NULL;
+	AddContact(&con);
+	AddContact(&con);
+	ShowContact(con);
+	/*DelContact(&con);*/
+	/*ShowContact(con);*/
+	/*FindContact(con);*/
+	ModifyContact(&con);
+	ShowContact(con);
+}
