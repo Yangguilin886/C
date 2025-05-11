@@ -1,0 +1,27 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+int kthToLast(struct ListNode* head, int k) {
+    int sum[10000],flag=0;
+    struct ListNode* prev=head;
+    while(prev)
+    {
+        sum[flag++]=prev->val;
+        prev=prev->next;
+    }
+    int i=0;
+    while(flag>=0)
+    {
+        if(i==k)
+        {
+            return sum[flag];
+        }
+        i++;
+        flag--;
+    }
+    return -1;
+}
