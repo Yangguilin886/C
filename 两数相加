@@ -1,0 +1,97 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* p1=l1;
+    struct ListNode* p2=l2;
+    struct ListNode* head=NULL;
+    int flag=0;
+    while(p1&&p2)
+    {
+       struct ListNode* ret=malloc(sizeof(struct ListNode));
+       ret->val=(p1->val+p2->val+flag)%10;
+       flag=(p1->val+p2->val+flag)/10;
+       ret->next=NULL;
+       if(head==NULL)
+       {
+          head=ret;
+       }
+       else
+       {
+          struct ListNode* prev=head;
+          while(prev->next)
+          {
+            prev=prev->next;
+          }
+          prev->next=ret;
+       }
+       p1=p1->next;
+       p2=p2->next;
+    }
+    while(p1)
+    {
+        struct ListNode* ret=malloc(sizeof(struct ListNode));
+        ret->val=(p1->val+flag)%10;
+        ret->next=NULL;
+        flag=(p1->val+flag)/10;
+        if(head==NULL)
+        {
+          head=ret;
+        }
+        else
+        {
+          struct ListNode* prev=head;
+          while(prev->next)
+          {
+            prev=prev->next;
+          }
+          prev->next=ret;
+        }
+        p1=p1->next;
+    }
+    while(p2)
+    {
+        struct ListNode* ret=malloc(sizeof(struct ListNode));
+        ret->val=(p2->val+flag)%10;
+        ret->next=NULL;
+        flag=(p2->val+flag)/10;
+        if(head==NULL)
+        {
+          head=ret;
+        }
+        else
+        {
+          struct ListNode* prev=head;
+          while(prev->next)
+          {
+            prev=prev->next;
+          }
+          prev->next=ret;
+        }
+        p2=p2->next;
+    }
+    if(flag>0)
+    {
+        struct ListNode* ret=malloc(sizeof(struct ListNode));
+        ret->val=flag;
+        ret->next=NULL;
+        if(head==NULL)
+        {
+          head=ret;
+        }
+        else
+        {
+          struct ListNode* prev=head;
+          while(prev->next)
+          {
+            prev=prev->next;
+          }
+          prev->next=ret;
+        }
+    }
+    return head;
+}
