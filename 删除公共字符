@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+    char sum[101];
+    char arr[101];
+    gets(sum);
+    gets(arr);
+    int n=strlen(sum);
+    int m=strlen(arr);
+    for(int i=0;i<n;i++)
+    {
+        int flag=1;
+        for(int j=0;j<m;j++)
+        {
+            if(sum[i]==arr[j])
+            {
+                flag=0;
+                break;
+            }
+        }
+        if(flag==1)
+        {
+            printf("%c",sum[i]);
+        }
+    }
+}
