@@ -1,0 +1,17 @@
+void revese(int* num,int left,int right)
+{
+    while(left<right)
+    {
+        int tmp=num[left];
+        num[left]=num[right];
+        num[right]=tmp;
+        left++;
+        right--;
+    }
+}
+void rotate(int* nums, int numsSize, int k) {
+    k%=numsSize;
+    revese(nums,0,numsSize-1-k);
+    revese(nums,numsSize-k,numsSize-1);
+    revese(nums,0,numsSize-1);
+}
