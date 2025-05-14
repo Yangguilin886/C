@@ -1,0 +1,57 @@
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     struct Node *next;
+ *     struct Node *random;
+ * };
+ */
+
+struct Node* copyRandomList(struct Node* head) {
+    struct Node* prev=head;
+    struct Node* newhead=NULL;
+    struct Node* newtail=NULL;
+    while(prev)
+    {
+        struct Node* ret=malloc(sizeof(struct Node));
+        ret->val=prev->val;
+        ret->next=NULL;
+        ret->random=NULL;
+        if(newhead==NULL)
+        {
+            newhead=ret;
+            newtail=ret;
+        }
+        else
+        {
+            while(newtail->next)
+            {
+                newtail=newtail->next;
+            }
+            newtail->next=ret;
+            newtail=newtail->next;
+        }
+        prev=prev->next;
+    }
+    struct Node* cur=newhead;
+    prev=head;
+    while(cur)
+    {
+        struct Node* puck=newhead;
+        struct Node* ps=head;
+        int flag=0;
+        while(prev->random!=ps)
+        {
+            ps=ps->next;
+            flag++;
+        }
+        while(flag--)
+        {
+            puck=puck->next;
+        }
+        cur->random=puck;
+        cur=cur->next;
+        prev=prev->next;
+    }
+    return newhead;
+}
