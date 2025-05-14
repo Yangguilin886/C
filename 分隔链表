@@ -1,0 +1,93 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* partition(struct ListNode* head, int x) {
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    struct ListNode* ret=malloc(sizeof(struct ListNode));
+    ret->next=head;
+    struct ListNode* cur=head;
+    struct ListNode* nodetail=NULL;
+    while(cur)
+    {
+        nodetail=cur;
+        cur=cur->next;
+    }
+    struct ListNode* newtail=nodetail;
+    cur=head;
+    struct ListNode* prev=ret;
+    while(cur!=nodetail)
+    {
+        if(cur->val>=x)
+        {
+            struct ListNode* next=cur->next;
+            newtail->next=cur;
+            newtail=newtail->next;
+            newtail->next=NULL;
+            prev->next=next;
+            cur=next;
+        }
+        else
+        {
+            prev=cur;
+            cur=cur->next;
+        }
+    }
+     if(cur->val>=x&&cur->next!=NULL)
+     {
+        struct ListNode* next=cur->next;
+        newtail->next=cur;
+        newtail=newtail->next;
+        newtail->next=NULL;
+        prev->next=next;
+        cur=next;
+    }
+    return ret->next;
+}
+//方法二
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* partition(struct ListNode* head, int x) {
+    struct ListNode* ret=malloc(sizeof(struct ListNode));
+    ret->next=NULL;
+    struct ListNode* sum=malloc(sizeof(struct ListNode));
+    sum->next=NULL;
+    struct ListNode* bighead=ret,*bigtail=ret;
+    struct ListNode* smallhead=sum,*smalltail=sum;
+    struct ListNode* cur=head;
+    while(cur)
+    {
+        struct ListNode* next=cur->next;
+        if(cur->val<x)
+        {
+            smalltail->next=cur;
+            smalltail=smalltail->next;
+            smalltail->next=NULL;
+        }
+        else
+        {
+            bigtail->next=cur;
+            bigtail=bigtail->next;
+            bigtail->next=NULL;
+        }
+        cur=next;
+    }
+    smalltail->next=bighead->next;
+    head=smallhead->next;
+    free(ret);
+    ret=NULL;
+    free(sum);
+    sum=NULL;
+    return head;
+}
