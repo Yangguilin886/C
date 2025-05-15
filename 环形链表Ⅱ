@@ -1,0 +1,81 @@
+//思路一：寻找相遇的节点然后让头节点跟相遇节点同时走再次相遇的位置就是环形成的位置
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode *detectCycle(struct ListNode *head) {
+    struct ListNode* fast=head;
+    struct ListNode* slow=head;
+    while(fast&&fast->next)
+    {
+        fast=fast->next->next;
+        slow=slow->next;
+        if(fast==slow)
+        break;
+    }
+    if(fast==NULL||fast->next==NULL)
+    {
+        return NULL;
+    }
+    struct ListNode* cur=head;
+    struct ListNode* prev=fast;
+    while(prev!=cur)
+    {
+        prev=prev->next;
+        cur=cur->next;
+    }
+    return cur;
+}
+//思路二：将相遇的位置处断开然后再使用相交链表找到环形成的位置
+struct ListNode *detectCycle(struct ListNode *head) {
+    struct ListNode* fast=head;
+    struct ListNode* slow=head;
+    while(fast&&fast->next)
+    {
+        fast=fast->next->next;
+        slow=slow->next;
+        if(fast==slow)
+        {
+            break;
+        }
+    }
+    if(fast==NULL||fast->next==NULL)
+    {
+        return NULL;
+    }
+    struct ListNode* meet=fast;
+    struct ListNode* newhead=fast->next;
+    meet->next=NULL;
+    struct ListNode* prev=head;
+    struct ListNode* cur=newhead;
+    int flag1=0,flag2=0;
+    while(prev)
+    {
+        flag1++;
+        prev=prev->next;
+    }
+    while(cur)
+    {
+        flag2++;
+        cur=cur->next;
+    }
+    prev=head;
+    cur=newhead;
+    for(int i=0;i<flag1-flag2;i++)
+    {
+        prev=prev->next;
+    }
+    for(int i=0;i<flag2-flag1;i++)
+    {
+        cur=cur->next;
+    }
+    while(prev!=cur)
+    {
+        prev=prev->next;
+        cur=cur->next;
+    }
+    return cur;
+}
