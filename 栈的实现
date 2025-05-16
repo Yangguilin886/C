@@ -1,0 +1,65 @@
+#include "text.h"
+void StackInit(Stack* ps)
+{
+	assert(ps);
+	ps->_a = NULL;
+	ps->_top = 0;
+	ps->_capacity = 0;
+}
+void StackPush(Stack* ps, STDataType data)
+{
+	assert(ps);
+	if (ps->_capacity == ps->_top)
+	{
+		int new_capacity = ps->_capacity == 0 ? 4 : ps->_capacity * 2;
+		int* ret = realloc(ps->_a, new_capacity * sizeof(int));
+		if (ret == NULL)
+		{
+			perror("realloc");
+			return;
+		}
+		ps->_a = ret;
+		ps->_capacity = new_capacity;
+	}
+	ps->_a[ps->_top] = data;
+	ps->_top++;
+}
+void StackPop(Stack* ps)
+{
+	assert(ps);
+	ps->_top--;
+}
+STDataType StackTop(Stack* ps)
+{
+	assert(ps);
+	return ps->_a[ps->_top-1];
+}
+int StackSize(Stack* ps)
+{
+	return ps->_top;
+}
+int StackEmpty(Stack* ps)
+{
+	return ps->_top == 0;
+}
+void StackDestroy(Stack* ps)
+{
+	free(ps->_a);
+	ps->_a= NULL;
+	ps->_capacity = 0;
+	ps->_top = 0;
+
+}
+int main()
+{
+	Stack p1;
+	StackInit(&p1);
+	StackPush(&p1,2);
+	StackPush(&p1,3);
+	StackPush(&p1,4);
+	printf("%d ", StackTop(&p1));
+	StackPop(&p1);
+	printf("%d ", StackSize(&p1));
+	StackDestroy(&p1);
+
+}
