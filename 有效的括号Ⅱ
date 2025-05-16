@@ -1,0 +1,110 @@
+struct SL
+{
+    char* a;
+    int top;
+    int copysize;
+};
+void SLInit(struct SL* ps)
+{
+    assert(ps);
+    ps->a=NULL;
+    ps->top=0;
+    ps->copysize=0;
+}
+void SLpush(struct SL* ps,char x)
+{
+    assert(ps);
+    if(ps->top==ps->copysize)
+    {
+        int newcopysize=ps->copysize==0?4:ps->copysize*2;
+        char* ret=realloc(ps->a,sizeof(char)*newcopysize);
+        if(ret==NULL)
+        {
+            return ;
+        }
+        ps->a=ret;
+        ps->copysize=newcopysize;
+    }
+    ps->a[ps->top]=x;
+    ps->top++;
+}
+char SLshow(struct SL* ps)
+{
+    char x=ps->a[ps->top-1];
+    ps->top--;
+    return x;
+}
+bool SLexcty(struct SL* ps)
+{
+    return ps->top!=0;
+}
+bool isValid(char* s) {
+    struct SL cur;
+    SLInit(&cur);
+    int n=strlen(s);
+    if(n%2!=0)
+    {
+        return false;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(s[i]=='(')
+        {
+            SLpush(&cur,')');
+        }
+        else if(s[i]=='{')
+        {
+            SLpush(&cur,'}');
+        }
+        else if(s[i]=='[')
+        {
+            SLpush(&cur,']');
+        }
+        else if(s[i]==')')
+        {
+            if(SLexcty(&cur))
+            {
+               if(s[i]!=SLshow(&cur))
+               {
+                   return false;
+               }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if(s[i]==']')
+        {
+            if(SLexcty(&cur))
+            {
+               if(s[i]!=SLshow(&cur))
+               {
+                   return false;
+               }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else{
+            if(SLexcty(&cur))
+            {
+               if(s[i]!=SLshow(&cur))
+               {
+                   return false;
+               }
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    if(!SLexcty(&cur))
+    {
+        return true;
+    }
+    return false;
+}
