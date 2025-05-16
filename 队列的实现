@@ -1,0 +1,92 @@
+#include "text.h"
+void QueueInit(Queue* q)
+{
+	q->phead = NULL;
+	q->ptail = NULL;
+	q->size = 0;
+}
+void QueuePush(Queue* q, QDataType data)
+{
+	assert(q);
+	QNode* ret = malloc(sizeof(QNode));
+	if (ret == NULL)
+	{
+		perror("malloc fila");
+		return;
+	}
+	ret->_data = data;
+	ret->_next = NULL;
+	if (q->phead == NULL)
+	{
+		q->phead = q->ptail = ret;
+	}
+	else
+	{
+		q->ptail->_next=ret;
+		q->ptail = ret;
+	}
+	q->size++;
+}
+void QueuePop(Queue* q)
+{
+	assert(q);
+	assert(q->phead);
+	QNode* next = q->phead->_next;
+	free(q->phead);
+	q->phead = next;
+	q->size--;
+	if (q->size == 0)
+	{
+		q->ptail = NULL;
+	}
+}
+QDataType QueueFront(Queue* q)
+{
+	assert(q);
+	assert(q->phead);
+	return q->phead->_data;
+}
+QDataType QueueBack(Queue* q)
+{
+	assert(q);
+	assert(q->ptail);
+	return q->ptail->_data;
+}
+int QueueSize(Queue* q)
+{
+	assert(q);
+	return q->size;
+}
+int QueueEmpty(Queue* q)
+{
+	assert(q);
+	return q->size == 0;
+}
+void QueueDestroy(Queue* q)
+{
+	assert(q);
+	QNode* cur = q->phead;
+	while (cur)
+	{
+		QNode* next = cur->_next;
+		free(cur);
+		cur = next;
+	}
+	q->phead = q->ptail = NULL;
+	q->size = 0;
+}
+int main()
+{
+	Queue ps;
+	QueueInit(&ps);
+	QueuePush(&ps,1);
+	QueuePush(&ps, 2);
+	QueuePush(&ps, 3);
+	QueuePush(&ps, 4);
+	while (!QueueEmpty(&ps))
+	{
+		printf("%d ", QueueFront(&ps));
+		QueuePop(&ps);
+	}
+	QueueDestroy(&ps);
+}
