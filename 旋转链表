@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* rotateRight(struct ListNode* head, int k) {
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    struct ListNode* prev=head;
+    int n=0;
+    while(prev)
+    {
+        n++;
+        prev=prev->next;
+    }
+    k%=n;
+    while(k--)
+    {
+        struct ListNode* nodetail=head->next;
+        prev=head;
+        while(nodetail&&nodetail->next)
+        {
+            prev=prev->next;
+            nodetail=prev->next;
+        }
+        nodetail->next=head;
+        head=nodetail;
+        prev->next=NULL;
+    }
+    return head;
+}
