@@ -1,0 +1,33 @@
+char* simplifyPath(char* path) {
+    char* sum[3000];
+    int size=0;
+    for(char* s=strtok(path,"/");s;s=strtok(NULL,"/"))
+    {
+        if(strcmp(s,".")==0)
+        {
+
+        }
+        else if(strcmp(s,"..")==0)
+        {
+            if(size>0)
+            {
+                size--;
+            }
+        }
+        else
+        {
+            sum[size++]=s;
+        }
+    }
+    if(size==0)
+    {
+        return "/";
+    }
+    char* ret=(char*)calloc(3000,sizeof(char));
+    for(int i=0;i<size;i++)
+    {
+        strcat(ret,"/");
+        strcat(ret,sum[i]);
+    }
+    return ret;
+}
