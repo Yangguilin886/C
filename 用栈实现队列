@@ -1,0 +1,111 @@
+typedef struct Stack
+{
+	int*  _a;
+	int _top;		
+	int _capacity;
+    int sum;
+}Stack;
+void StackInit(Stack* ps)
+{
+	assert(ps);
+    ps->_a=NULL;
+	ps->_top = 0;
+	ps->_capacity = 0;
+    ps->sum=0;
+}
+void StackPush(Stack* ps, int  data)
+{
+	assert(ps);
+	if (ps->_capacity == ps->_top)
+	{
+		int new_capacity = ps->_capacity == 0 ? 4 : ps->_capacity * 2;
+		int* ret = realloc(ps->_a, new_capacity * sizeof(int));
+		if (ret == NULL)
+		{
+			perror("realloc");
+			return;
+		}
+		ps->_a = ret;
+		ps->_capacity = new_capacity;
+	}
+	ps->_a[ps->_top] = data;
+	ps->_top++;
+}
+void StackPop(Stack* ps)
+{
+	assert(ps);
+	ps->_top--;
+}
+int StackTop(Stack* ps)
+{
+	assert(ps);
+	return ps->_a[ps->_top-1];
+}
+int StackSize(Stack* ps)
+{
+	return ps->_top;
+}
+int StackEmpty(Stack* ps)
+{
+	return ps->_top == 0;
+}
+void StackDestroy(Stack* ps)
+{
+	free(ps->_a);
+	ps->_a= NULL;
+	ps->_capacity = 0;
+	ps->_top = 0;
+
+}
+
+
+typedef struct {
+    Stack p1;
+    Stack p2;
+} MyQueue;
+
+
+MyQueue* myQueueCreate() {
+    MyQueue* ret=malloc(sizeof(MyQueue));
+    StackInit(&ret->p1);
+    StackInit(&ret->p2);
+    return ret;
+}
+
+void myQueuePush(MyQueue* obj, int x) {
+    StackPush(&obj->p1,x);
+}
+int myQueuePop(MyQueue* obj) {
+    if(StackEmpty(&obj->p2))
+    {
+        while(!StackEmpty(&obj->p1))
+        {
+            StackPush(&obj->p2,StackTop(&obj->p1));
+            StackPop(&obj->p1);
+        }
+    }
+    int x=StackTop(&obj->p2);
+    StackPop(&obj->p2);
+    return x;
+}
+
+int myQueuePeek(MyQueue* obj) {
+    if(StackEmpty(&obj->p2))
+    {
+        while(!StackEmpty(&obj->p1))
+        {
+            StackPush(&obj->p2,StackTop(&obj->p1));
+            StackPop(&obj->p1);
+        }
+    }
+    return StackTop(&obj->p2);
+}
+
+bool myQueueEmpty(MyQueue* obj) {
+    return StackEmpty(&obj->p1)&&StackEmpty(&obj->p2);
+}
+
+void myQueueFree(MyQueue* obj) {
+    StackDestroy(&obj->p1);
+    StackDestroy(&obj->p2);
+}
