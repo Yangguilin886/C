@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* insertionSortList(struct ListNode* head) {
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    struct ListNode* ret=malloc(sizeof(struct ListNode));
+    ret->next=head;
+    struct ListNode* nodetail=head;
+    struct ListNode* cur=head->next;
+    while(cur)
+    {
+        if(nodetail->val<=cur->val)
+        {
+            nodetail=nodetail->next;
+        }
+        else
+        {
+            struct ListNode* prev=ret;
+            while(prev->next->val<=cur->val)
+            {
+                prev=prev->next;
+            }
+            nodetail->next=cur->next;
+            cur->next=prev->next;
+            prev->next=cur;
+        }
+        cur=nodetail->next;
+    }
+    head=ret->next;
+    free(ret);
+    ret=NULL;
+    return head;
+}
