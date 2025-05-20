@@ -1,0 +1,94 @@
+#include "text.h"
+void HeapInit(Heap* hp)
+{
+	hp->a = NULL;
+	hp->size = 0;
+	hp->capacity=0;
+}
+void HeapDestory(Heap* hp)
+{
+	free(hp->a);
+	hp->a = NULL;
+	hp->capacity = 0;
+	hp->size = 0;
+}
+void Swap(HPDataType* p1, HPDataType* p2)
+{
+	HPDataType tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
+}
+void AdjustUp(HPDataType* a, int child)
+{
+	int parent = (child - 1) / 2;
+	while (child > 0)
+	{
+		if (a[child] <a[parent])
+		{
+			Swap(&a[child], &a[parent]);
+			child = parent;
+			parent = (child - 1) / 2;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+void HeapPush(Heap* hp, HPDataType x)
+{
+	assert(hp);
+	if (hp->capacity == hp->size)
+	{
+		int n = hp->capacity == 0 ? 4 : hp->capacity * 2;
+		HPDataType* ret = realloc(hp->a,sizeof(HPDataType)*n);
+		if (ret == NULL)
+		{
+			return;
+		}
+		hp->a = ret;
+		hp->capacity = n;
+	}
+	hp->a[hp->size] = x;
+	hp->size++;
+	AdjustUp(hp->a, hp->size - 1);
+}
+void AdjustDown(HPDataType* a, int parent, int n)
+{
+	int child = parent * 2 + 1;
+	while (child < n)
+	{
+		if (a[child] > a[child + 1]&&(child+1<n))
+		{
+			child = child + 1;
+		}
+		if (a[child] < a[parent])
+		{
+			Swap(&a[parent], &a[child]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+void HeapPop(Heap* hp)
+{
+	Swap(&hp->a[0],&hp->a[hp->size - 1]);
+	hp->size--;
+	AdjustDown(hp->a, 0, hp->size);
+}
+HPDataType HeapTop(Heap* hp)
+{
+	return hp->a[0];
+}
+int HeapSize(Heap* hp)
+{
+	return hp->size;
+}
+bool HeapEmpty(Heap* hp)
+{
+	return hp->size == 0;
+}
