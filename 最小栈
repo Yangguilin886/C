@@ -1,0 +1,101 @@
+
+
+typedef struct {
+    int * a;
+    int size;
+    int capacity;
+} MinStack;
+
+
+MinStack* minStackCreate() {
+    MinStack* ret=malloc(sizeof(MinStack));
+    ret->a=NULL;
+    ret->size=0;
+    ret->capacity=0;
+    return ret;
+}
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void AdjustDown(int* a,int n,int parent)
+{
+    int child=parent*2+1;
+    while(child<n)
+    {
+        if((child+1)<n&&a[child]>a[child+1])
+        {
+            child++;
+        }
+        if(a[child]<a[parent])
+        {
+            Swap(&a[child],&a[parent]);
+            parent=child;
+            child=parent*2+1;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+void minStackPush(MinStack* obj, int val) {
+    if(obj->size==obj->capacity)
+    {
+        int newcapacity=obj->capacity==0?4:obj->capacity*2;
+        int* ret=realloc(obj->a,newcapacity*sizeof(int));
+        if(ret==NULL)
+        {
+            return;
+        }
+        obj->a=ret;
+        obj->capacity=newcapacity;
+    }
+    obj->a[obj->size]=val;
+    obj->size++;
+}
+
+void minStackPop(MinStack* obj) {
+    obj->size=obj->size-1;
+}
+
+int minStackTop(MinStack* obj) {
+    return obj->a[obj->size-1];
+}
+
+int minStackGetMin(MinStack* obj) {
+    int* ret=malloc(sizeof(int)*obj->size);
+    for(int i=0;i<obj->size;i++)
+    {
+        ret[i]=obj->a[i];
+    }
+    
+    for(int i=(obj->size-1-1)/2;i>=0;i--)
+    {
+        AdjustDown(ret,obj->size,i);
+    }
+    return ret[0];
+}
+
+void minStackFree(MinStack* obj) {
+    free(obj->a);
+    obj->a=NULL;
+    obj->size=0;
+    obj->capacity=0;
+}
+
+/**
+ * Your MinStack struct will be instantiated and called as such:
+ * MinStack* obj = minStackCreate();
+ * minStackPush(obj, val);
+ 
+ * minStackPop(obj);
+ 
+ * int param_3 = minStackTop(obj);
+ 
+ * int param_4 = minStackGetMin(obj);
+ 
+ * minStackFree(obj);
+*/
