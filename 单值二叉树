@@ -1,0 +1,40 @@
+//方法一递归
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+bool isUnivalTree(struct TreeNode* root) {
+    if(root==NULL)
+    {
+        return true;
+    }
+    if(root->left&&root->val!=root->left->val)
+    {
+        return false;
+    }
+    if(root->right&&root->val!=root->right->val)
+    {
+        return false;
+    }
+    return isUnivalTree(root->left)&&isUnivalTree(root->right);
+}
+//方法二遍历
+ bool _isUnivalTree(struct TreeNode* root,int val)
+ {
+    if(root==NULL)
+    {
+        return true;
+    }
+    if(root->val!=val)
+    {
+        return false;
+    }
+    return _isUnivalTree(root->left,val)&&_isUnivalTree(root->right,val);
+ }
+bool isUnivalTree(struct TreeNode* root) {
+   return  _isUnivalTree(root,root->val);
+}
