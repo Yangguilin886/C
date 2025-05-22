@@ -1,0 +1,163 @@
+#include "text.h"
+BTNode* Init(BTDataType x)
+{
+	BTNode* ret =(BTNode*) malloc(sizeof(BTNode));
+	if (ret == NULL)
+	{
+		perror("malloc fail");
+		return NULL;
+	}
+	ret->data = x;
+	ret->left = NULL;
+	ret->right = NULL;
+	return ret;
+}
+BTNode* BinaryTreeCreate(BTDataType* a)
+{ 
+	int i=0;
+	BTNode*  Node1=Init(a[i++]);
+	BTNode* Node2 = Init(a[i++]);
+	BTNode* Node3 = Init(a[i++]);
+	BTNode* Node4 = Init(a[i++]);
+	BTNode* Node5 = Init(a[i++]);
+	BTNode* Node6 = Init(a[i++]);
+	BTNode* Node7 = Init(a[i++]);
+	BTNode* Node8 = Init(a[i++]);
+	Node1->left = Node2;
+	Node1->right = Node6;
+	Node2->left = Node3;
+	Node2->right = Node4;
+	Node4->right = Node5;
+	Node6->left = Node7;
+	Node6->right = Node8;
+	return Node1;
+}
+void PrevOder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	printf("%c ", root->data);
+	PrevOder(root->left);
+	PrevOder(root->right);
+}
+int BinaryTreeSize(BTNode* root)
+{
+	if (root == NULL)
+	{
+		return 0;
+	}
+	return BinaryTreeSize(root->left) + BinaryTreeSize(root->right) + 1;
+}
+int BinaryTreeLeafSize(BTNode* root)
+{
+	if (root == NULL)
+	{
+		return 0;
+	}
+	if (root->left == NULL && root->right == NULL)
+	{
+		return 1;
+	}
+	return BinaryTreeLeafSize(root->left) + BinaryTreeLeafSize(root->right);
+}
+int BinaryTreeLevelKSize(BTNode* root, int k)
+{
+	if (root == NULL)
+	{
+		return 0;
+	}
+	if (k == 1)
+	{
+		return 1;
+	}
+	return BinaryTreeLevelKSize(root->left, k - 1) + BinaryTreeLevelKSize(root->right,k-1);
+}
+BTNode* BinaryTreeFind(BTNode* root, BTDataType x)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->data == x)
+	{
+		return root;
+	}
+	BinaryTreeFind(root->left, x);
+	BinaryTreeFind(root->right, x);
+	return NULL;
+}
+void BinaryTreeInOrder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	BinaryTreeInOrder(root->left);
+	printf("%c ", root->data);
+	BinaryTreeInOrder(root->right);
+}
+void BinaryTreePostOrder(BTNode* root)
+{
+	if (root == NULL)
+	{
+		printf("NULL ");
+		return;
+	}
+	BinaryTreePostOrder(root->left);
+	BinaryTreePostOrder(root->right);
+	printf("%c ", root->data);
+}
+bool BinaryTreeComplete(BTNode* root)
+{
+	if (root == NULL)
+	{
+		return true;
+	}
+	if (root->left == NULL && root->right != NULL)
+	{
+		return false;
+	}
+	return BinaryTreeComplete(root->left) && BinaryTreeComplete(root->right);
+}
+void BinaryTreeDestory(BTNode** root)
+{
+	if (root == NULL)
+	{
+		return;
+	}
+	BTNode* left = (*root)->left;
+	BTNode* right = (*root)->right;
+	free(*root);
+	*root = NULL;
+	BinaryTreeDestory(&left);
+	BinaryTreeDestory(&right);
+}
+int main()
+{
+	BTDataType a[8] = {"ABDEHCFG"};
+	BTNode* root=BinaryTreeCreate(a);
+	PrevOder(root);
+	printf("\n");
+	printf("%d\n", BinaryTreeSize(root));
+	printf("%d\n", BinaryTreeLeafSize(root));
+	printf("%d\n", BinaryTreeLevelKSize(root, 3));
+	printf("%p\n", BinaryTreeFind(root, a[0]));
+	BinaryTreeInOrder(root);
+	printf("\n");
+	BinaryTreePostOrder(root);
+	printf("\n");
+	if (BinaryTreeComplete(root))
+	{
+		printf("是完美二叉树！");
+	}
+	else
+	{
+		printf("不是完美二叉树！");
+	}
+	BinaryTreeDestory(&root);
+	root = NULL;
+}
