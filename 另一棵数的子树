@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+bool TreeFind(struct TreeNode* root, struct TreeNode* subRoot) {
+    if (root == NULL && subRoot == NULL) {
+        return true;
+    }
+    if (root == NULL || subRoot == NULL) {
+        return false;
+    }
+    if (root->val != subRoot->val) {
+        return false;
+    }
+    return TreeFind(root->left, subRoot->left) &&
+           TreeFind(root->right, subRoot->right);
+}
+bool TreeOder(struct TreeNode* root,struct TreeNode* subRoot)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    if(TreeFind(root,subRoot))
+    {
+        return true;
+    }
+    return TreeOder(root->left,subRoot)||TreeOder(root->right,subRoot);
+}
+bool isSubtree(struct TreeNode* root, struct TreeNode* subRoot) {
+    return TreeOder(root,subRoot);
+}
