@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+typedef struct Tree
+{
+    char val;
+    struct Tree* left;
+    struct Tree* right;
+}BTNode;
+BTNode* ByNode(int x)
+{
+    BTNode* ret=malloc(sizeof(BTNode));
+    ret->val=x;
+    ret->left=NULL;
+    ret->right=NULL;
+    return ret;
+}
+BTNode* TreeInit(char* a,int* i)
+{
+    BTNode* root=NULL;
+    if(a[*i]=='#')
+    {
+        (*i)++;
+        return NULL;
+    }
+    root=ByNode(a[(*i)++]);        
+    root->left=TreeInit(a,i);
+    root->right=TreeInit(a,i);
+    return root;
+}
+void InOder(BTNode* root)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    InOder(root->left);
+    printf("%c ",root->val);
+    InOder(root->right);
+}
+int main() {
+    char sum[100];
+    scanf("%s",sum);
+    int n=strlen(sum);
+    int i=0;
+    BTNode* ret=TreeInit(sum,&i);
+    InOder(ret);
+    return 0;
+}
