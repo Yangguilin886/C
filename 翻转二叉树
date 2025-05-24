@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void TreeSwap(struct TreeNode* root) {
+    if (root->left == NULL && root->right == NULL) {
+        return;
+    } else if (root->left == NULL && root->right) {
+        root->left = root->right;
+        root->right = NULL;
+        TreeSwap(root->left);
+    } else if (root->left && root->right == NULL) {
+        root->right = root->left;
+        root->left = NULL;
+        TreeSwap(root->right);
+    } else {
+        struct TreeNode* tmp = root->left;
+        root->left = root->right;
+        root->right = tmp;
+        TreeSwap(root->left);
+        TreeSwap(root->right);
+    }
+}
+struct TreeNode* invertTree(struct TreeNode* root) {
+    if (root == NULL || (root->left == NULL && root->right == NULL)) {
+        return root;
+    } else if (root->left == NULL && root->right) {
+        root->left = root->right;
+        root->right = NULL;
+        TreeSwap(root->left);
+    } else if (root->left && root->right == NULL) {
+        root->right = root->left;
+        root->left = NULL;
+        TreeSwap(root->right);
+    } else {
+        struct TreeNode* newleft = root->left;
+        root->left = root->right;
+        root->right = newleft;
+        TreeSwap(root->left);
+        TreeSwap(root->right);
+    }
+    return root;
+}
