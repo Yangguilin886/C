@@ -1,0 +1,67 @@
+//二叉树的查找
+TNode* BinaryTreeFind(BTNode* root, BTDataType x)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->data == x)
+	{
+		return root;
+	}
+	BTNode* ret1=BinaryTreeFind(root->left, x);
+	if (ret1)
+	{
+		return ret1;
+	}
+	return BinaryTreeFind(root->right, x);
+}
+//层序遍历
+void BinaryTreeLevelOrder(BTNode* root)
+{
+	Queue q;
+	QueueInit(&q);
+	QueuePush(&q, root);
+	while (!QueueEmpty(&q))
+	{
+		QDataType font = QueueFront(&q);
+		QueuePop(&q);
+		printf("%c ", font->data);
+		if (font->left)
+		{
+			QueuePush(&q, font->left);
+		}
+		if (font->right)
+		{
+			QueuePush(&q, font->right);
+		}
+	}
+}
+//判断完美二叉树
+bool BinaryTreeComplete(BTNode* root)
+{
+	Queue q;
+	QueueInit(&q);
+	QueuePush(&q, root);
+	while (!QueueEmpty(&q))
+	{
+		QDataType font = QueueFront(&q);
+		QueuePop(&q);
+		if (font == NULL)
+		{
+			while (!QueueEmpty(&q))
+			{
+				QDataType font = QueueFront(&q);
+				QueuePop(&q);
+				if (font != NULL)
+				{
+					return false;
+				}
+			}
+			break;
+		}
+		QueuePush(&q, font->left);
+		QueuePush(&q, font->right);
+	}
+	return true;
+}
