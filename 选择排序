@@ -1,0 +1,37 @@
+// 选择排序
+void SelectSort(int* a, int n)
+{
+	int start = 0,end=n-1;
+	while (start < end)
+	{
+		int max = end;
+		int min = start;
+		for (int i = start;i <=end; i++)
+		{
+			if (a[i] > a[max])
+			{
+				max = i;
+			}
+			if (a[i] < a[min])
+			{
+				min = i;
+			}
+		}
+		if (max == start && min == end)
+		{
+			Swap(&a[start], &a[end]);
+		}
+		if (max == start)
+		{
+			Swap(&a[end], &a[start]);
+			Swap(&a[start], &a[min]);
+		}
+		else
+		{
+			Swap(&a[start], &a[min]);
+			Swap(&a[end], &a[max]);
+		}
+		end--;
+		start++;
+	}
+}
