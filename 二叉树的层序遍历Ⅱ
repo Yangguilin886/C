@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int TreeSize(struct TreeNode* root,int k)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    if(k==1)
+    {
+        return 1;
+    }
+    return TreeSize(root->left,k-1)+TreeSize(root->right,k-1);
+}
+int TreeHight(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return fmax(TreeHight(root->left),TreeHight(root->right))+1;
+}
+int** levelOrderBottom(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {
+    int** ret=malloc(sizeof(int*)*2000);
+    *returnColumnSizes=malloc(sizeof(int)*2000);
+    *returnSize=0;
+    struct TreeNode* sum[2000];
+    int head=0,tail=0;
+    sum[tail++]=root;
+    while(head!=tail)
+    {
+        struct TreeNode* cur=sum[head];
+        if(cur==NULL)
+        {
+            break;
+        }
+        head++;
+        if(cur->right)
+        {
+            sum[tail++]=cur->right;
+        }
+        if(cur->left)
+        {
+            sum[tail++]=cur->left;
+        }
+    }
+    int high=TreeHight(root);
+    for(int i=high;i>=1;i--)
+    {
+        int k=TreeSize(root,i);
+        ret[*returnSize]=malloc(sizeof(int)*k);
+        int n=0;
+        while(n<k)
+        {
+            ret[*returnSize][n]=sum[--tail]->val;
+            n++;
+        }
+        (*returnColumnSizes)[(*returnSize)++]=k;
+    }
+    return ret;
+}
