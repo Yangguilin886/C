@@ -1,0 +1,93 @@
+void Swap(int* p1, int* p2)
+{
+	int tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
+}
+int Middle(int* a, int left, int right)
+{
+	int mid = (left + right) / 2;
+	if (a[left] > a[mid])
+	{
+		if (a[mid] > a[right])
+		{
+			return mid;
+		}
+		else if (a[left] < a[right])
+		{
+			return left;
+		}
+		else
+		{
+			return right;
+		}
+	}
+	else
+	{
+		if (a[right] > a[mid])
+		{
+			return mid;
+		}
+		else if (a[right] > a[left])
+		{
+			return right;
+		}
+		else
+		{
+			return left;
+		}
+	}
+	return mid;
+}
+void InessSort(int* a, int n)
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		int end = i;
+		int tmp = a[end + 1];
+		while (end >= 0)
+		{
+			if (a[end] >= tmp)
+			{
+				a[end + 1] = a[end];
+				end--;
+			}
+			else
+			{
+				break;
+			}
+		}
+		a[end + 1] = tmp;
+	}
+}
+void QuickSort(int* a, int left, int right)
+{
+	if (right - left + 1 <= 10)
+	{
+		InessSort(a+left, right - left + 1);
+		return;
+	}
+	else
+	{
+		int start = left;
+		int end = right;
+		int mid = Middle(a, start, end);
+		int key = left;
+		Swap(&a[key], &a[mid]);
+		while (start < end)
+		{
+			while (start < end && a[end] >= a[key])
+			{
+				end--;
+			}
+			while (start < end && a[start] <= a[key])
+			{
+				start++;
+			}
+			Swap(&a[start], &a[end]);
+		}
+		Swap(&a[key], &a[end]);
+		QuickSort(a, left, end - 1);
+		QuickSort(a, end + 1, right);
+	}
+}
