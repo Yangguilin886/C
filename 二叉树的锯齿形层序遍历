@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume
+ * caller calls free().
+ */
+int** zigzagLevelOrder(struct TreeNode* root, int* returnSize,
+                       int** returnColumnSizes) {
+    int** ret = malloc(sizeof(int*) * 2000);
+    *returnColumnSizes = malloc(sizeof(int) * 2000);
+    *returnSize = 0;
+    if (root == NULL) {
+        return ret;
+    }
+    struct TreeNode* queue[2000];
+    int head = 0, tail = 0;
+    int flag = 1;
+    queue[tail++] = root;
+    while (head != tail) {
+        int len = tail - head;
+        ret[*returnSize] = malloc(sizeof(int) * len);
+        int start = head;
+        head = tail;
+        if (flag % 2 != 0) {
+            for (int i = start; i < head; i++) {
+                ret[*returnSize][i - start] = queue[i]->val;
+                if (queue[i]->left) {
+                    queue[tail++] = queue[i]->left;
+                }
+                if (queue[i]->right) {
+                    queue[tail++] = queue[i]->right;
+                }
+            }
+        } else {
+            int n = 0;
+            int m = start;
+            for (int i = head - 1; i >= m; i--) {
+                ret[*returnSize][n++] = queue[i]->val;
+                if (queue[start]->left) {
+                    queue[tail++] = queue[start]->left;
+                }
+                if (queue[start]->right) {
+                    queue[tail++] = queue[start]->right;
+                }
+                start++;
+            }
+        }
+        flag++;
+        (*returnColumnSizes)[(*returnSize)++] = len;
+    }
+    return ret;
+}
