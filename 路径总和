@@ -1,0 +1,25 @@
+bool prevTree(struct TreeNode* root,int n, int targetSum)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    n+=root->val;
+    if((root->left==NULL&&root->right==NULL)&&n==targetSum)
+    {
+        return true;
+    }
+    return prevTree(root->left,n,targetSum)||prevTree(root->right,n,targetSum);
+}
+bool hasPathSum(struct TreeNode* root, int targetSum) {
+    if(root==NULL)
+    {
+        return false;
+    }
+    int n=root->val;
+    if((root->left==NULL&&root->right==NULL)&&n==targetSum)
+    {
+        return true;
+    }
+    return prevTree(root->left,n,targetSum)||prevTree(root->right,n,targetSum);
+}
