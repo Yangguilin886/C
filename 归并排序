@@ -1,0 +1,40 @@
+void _Merge(int* a, int left, int right, int* tmp)
+{
+	if (left >= right)
+	{
+		return;
+	}
+	int mid = (left + right) / 2;
+	_Merge(a, left, mid, tmp);
+	_Merge(a, mid + 1, right, tmp);
+	int start1 = left, end1 = mid;
+	int start2 = mid + 1, end2 = right;
+	int i = left;
+	while (start1 <= end1 && start2 <= end2)
+	{
+		if (a[start1] < a[start2])
+		{
+			tmp[i++] = a[start1];
+			start1++;
+		}
+		else
+		{
+			tmp[i++] = a[start2];
+			start2++;
+		}
+	}
+	while (start1 <= end1)
+	{
+		tmp[i++] = a[start1++];
+	}
+	while (start2 <= end2)
+	{
+		tmp[i++] = a[start2++];
+	}
+	memcpy(a+left, tmp+left, (right - left + 1)*sizeof(int));
+}
+void Merge(int* a, int n)
+{
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	_Merge(a, 0, n-1, tmp);
+}
