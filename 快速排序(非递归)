@@ -1,0 +1,155 @@
+#include "text.h"
+void Swap(int* p1, int* p2)
+{
+	int tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
+}
+void BubbleSort(int* a, int n)
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		int flag = 1;
+		for (int j = 0; j < n - 1 - i; j++)
+		{
+			if (a[j] > a[j + 1])
+			{
+				Swap(&a[j], &a[j + 1]);
+				flag = 0;
+			}
+		}
+		if (flag == 1)
+		{
+			break;
+		}
+	}
+}
+void  PartSort1(int* a, int left, int right)
+{
+	if (left >= right)
+	{
+		return;
+	}
+	int start = left;
+	int end = right;
+	int key = left;
+	while (start < end)
+	{
+		while (start < end && a[key] <= a[end])
+		{
+			end--;
+		}
+		while (start < end && a[key] >= a[start])
+		{
+			start++;
+		}
+		Swap(&a[start], &a[end]);
+	}
+	Swap(&a[key], &a[end]);
+	PartSort1(a, left, end - 1);
+	PartSort1(a, end + 1, right);
+}
+void PartSort2(int* a, int left, int right)
+{
+	if (left >= right)
+	{
+		return;
+	}
+	int key = a[left];
+	int start = left;
+	int end = right;
+	while (start<end)
+	{
+		while (start < end && a[end] >= key)
+		{
+			end--;
+		}
+		if(start<end&&a[end]<key)
+		{
+			a[start] = a[end];
+		}
+		while (start < end && a[start] <= key)
+		{
+			start++;
+		}
+		if(start<end&&a[start]>key)
+		{
+			a[end] = a[start];
+		}
+	}
+	a[end] = key;
+	PartSort2(a, left, end - 1);
+	PartSort2(a, end + 1, right);
+}
+void PartSort3(int* a, int left, int right)
+{
+	if (left >= right)
+	{
+		return;
+	}
+	int prev = left;
+	int cur = prev + 1;
+	int key = left;
+	while (cur <=right)
+	{
+		if (a[cur] < a[key])
+		{
+			prev++;
+			Swap(&a[prev], &a[cur]);
+		}
+		cur++;
+	}
+	Swap(&a[prev], &a[key]);
+	PartSort3(a, left, prev - 1);
+	PartSort3(a,prev + 1, right);
+}
+void QuickSort(int* a, int left, int right)
+{
+	int BTnode[100];
+	int head = 0, tail = 0;
+	BTnode[tail++] = left;
+	BTnode[tail++] = right;
+	while (head != tail)
+	{
+		int end = BTnode[--tail];
+		int start = BTnode[--tail];
+		int newleft = start, newright = end;
+		int key = start;
+		while (start < end)
+		{
+			if (start < end && a[key] <= a[end])
+			{
+				end--;
+			}
+			if (start < end && a[key] >= a[start])
+			{
+				start++;
+			}
+			Swap(&a[start], &a[end]);
+		}
+		Swap(&a[key], &a[end]);
+		if (end + 1 < newright)
+		{
+			BTnode[tail++] = end + 1;
+			BTnode[tail++] = newright;
+		}
+		if (newleft < end - 1)
+		{
+			BTnode[tail++] = newleft;
+			BTnode[tail++] = end - 1;
+		}
+	}
+}
+int main()
+{
+	int a[10] = { 6,2,7,8,9,4,3,1,10,5 };
+	BubbleSort(a,10);
+	/*PartSort1(a, 0, 9);*/
+	/*PartSort2(a, 0, 9);*/
+	/*PartSort3(a,0,9);*/
+	/*QuickSort(a, 0, 9);*/
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d ", a[i]);
+	}
+}
