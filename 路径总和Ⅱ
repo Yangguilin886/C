@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+void _pathSum(struct TreeNode* root, int targetSum, int* returnSize, int** returnColumnSizes,int** ret,int* sum,int n,int top)
+{
+    if(root==NULL)
+    {
+        return; 
+    }
+    n+=root->val;
+    sum[top]=root->val;
+    if(root->left==NULL&&root->right==NULL)
+    {
+        if(n==targetSum)
+    {
+        ret[*returnSize]=malloc(sizeof(int)*(top+1));
+        memcpy(ret[*returnSize],sum,sizeof(int)*(top+1));
+        (*returnColumnSizes)[(*returnSize)++]=top+1;
+    }
+    }
+    _pathSum(root->left,targetSum,returnSize,returnColumnSizes,ret,sum,n,top+1);
+    _pathSum(root->right,targetSum,returnSize,returnColumnSizes,ret,sum,n,top+1);
+}
+int** pathSum(struct TreeNode* root, int targetSum, int* returnSize, int** returnColumnSizes) {
+    int** ret=malloc(sizeof(int*)*5000);
+    *returnColumnSizes=malloc(sizeof(int)*5000);
+    *returnSize=0;
+    if(root==NULL)
+    {
+        return ret;
+    }
+    int sum[5000];
+    int n=0;
+    int top=0;
+    _pathSum(root,targetSum,returnSize,returnColumnSizes,ret,sum,n,top);
+    return ret;
+}
