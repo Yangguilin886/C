@@ -1,0 +1,37 @@
+struct Node* connect(struct Node* root) {
+	if(root==NULL)
+    {
+        return root;
+    }
+    struct Node* queue[5000];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        int i;
+        for(i=start;i<head-1;i++)
+        {
+            queue[i]->next=queue[i+1];
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+        queue[i]->next=NULL;
+        if(queue[i]->left)
+        {
+            queue[tail++]=queue[i]->left;
+        }
+        if(queue[i]->right)
+        {
+            queue[tail++]=queue[i]->right;
+        }
+    }
+    return root;
+}
