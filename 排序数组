@@ -1,0 +1,70 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void InsertSort(int* a,int left,int right)
+{
+    for(int i=left;i<right;i++)
+    {
+        int end=i;
+        int tmp=a[end+1];
+        while(end>=left)
+        {
+            if(a[end]>tmp)
+            {
+                a[end+1]=a[end];
+                end--;
+            }
+            else
+            {
+                break;
+            }
+        }
+        a[end+1]=tmp;
+    }
+
+}
+void QuckSort(int* a,int start,int end)
+{
+    if(start>=end)
+    {
+        return ;
+    }
+    if((end-start+1)<=10)
+    {
+        InsertSort(a,start,end);
+        return;
+    }
+    int left=start,right=end;
+    int cur=left+1;
+    int keyi=left+(rand()%(right-left+1));
+    Swap(&a[left],&a[keyi]);
+    int key=a[left];
+    while(cur<=right)
+    {
+        if(a[cur]<key)
+        {
+            Swap(&a[cur],&a[left]);
+            left++;
+            cur++;
+        }
+        else if(a[cur]>key)
+        {
+            Swap(&a[cur],&a[right]);
+            right--;
+        }
+        else if(a[cur]==key)
+        {
+            cur++;
+        }
+    }
+    QuckSort(a,start,left-1);
+    QuckSort(a,right+1,end);
+}
+int* sortArray(int* nums, int numsSize, int* returnSize) {
+    QuckSort(nums,0,numsSize-1);
+    *returnSize=numsSize;
+    return nums;
+}
