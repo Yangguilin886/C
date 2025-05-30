@@ -1,0 +1,21 @@
+int prevOder(struct TreeNode* root,int n)
+{
+    n=n*10+root->val;
+    if(root->left==NULL&&root->right==NULL)
+    {
+        return n;
+    }
+    if(root->left==NULL)
+    {
+        return prevOder(root->right,n);
+    }
+    if(root->right==NULL)
+    {
+        return prevOder(root->left,n);
+    }
+    return prevOder(root->left,n)+prevOder(root->right,n);
+}
+int sumNumbers(struct TreeNode* root) {
+    int n=0;
+    return prevOder(root,n);
+}
