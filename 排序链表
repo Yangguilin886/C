@@ -1,0 +1,56 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void AdjustDown(int* a,int n,int parent)
+{
+    int child=parent*2+1;
+    while(child<n)
+    {
+        if((child+1<n)&&a[child]<a[child+1])
+        {
+            child++;
+        }
+        if(a[child]>a[parent])
+        {
+            Swap(&a[child],&a[parent]);
+            parent=child;
+            child=parent*2+1;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+struct ListNode* sortList(struct ListNode* head) {
+    struct ListNode* cur=head;
+    int flag=0;
+    int* ret=malloc(sizeof(int)*100000);
+    while(cur)
+    {
+        ret[flag++]=cur->val;
+        cur=cur->next;
+    }
+    for(int i=(flag-1-1)/2;i>=0;i--)
+    {
+        AdjustDown(ret,flag,i);
+    }
+    int end=flag-1;
+    while(end>0)
+    {
+        Swap(&ret[0],&ret[end]);
+        AdjustDown(ret,end,0);
+        end--;
+    }
+    cur=head;
+    int i=0;
+    while(i<flag)
+    {
+        cur->val=ret[i++];
+        cur=cur->next;
+    }
+    return head;
+}
