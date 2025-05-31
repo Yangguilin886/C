@@ -1,0 +1,53 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void AdjustDown(int* a,int n,int parent)
+{
+    int child=parent*2+1;
+    while(child<n)
+    {
+        if(child+1<n&&a[child]>a[child+1])
+        {
+            child++;
+        }
+        if(a[child]<a[parent])
+        {
+            Swap(&a[child],&a[parent]);
+            parent=child;
+            child=parent*2+1;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+int maximumGap(int* nums, int numsSize) {
+    if(numsSize<2)
+    {
+        return 0;
+    }
+    for(int i=(numsSize-1-1)/2;i>=0;i--)
+    {
+        AdjustDown(nums,numsSize,i);
+    }
+    int end=numsSize-1;
+    while(end>0)
+    {
+        Swap(&nums[0],&nums[end]);
+        AdjustDown(nums,end,0);
+        end--;
+    }
+    int max=nums[0]-nums[1];
+    for(int i=0;i<numsSize-2;i++)
+    {
+        if(nums[i]-nums[i+1]>max)
+        {
+            max=nums[i]-nums[i+1];
+        }
+    }
+    return max;
+}
