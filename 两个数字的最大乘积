@@ -1,0 +1,48 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+void AdjustDown(int* a,int n,int parent)
+{
+    int child=parent*2+1;
+    while(child<n)
+    {
+        if(child+1<n&&a[child]>a[child+1])
+        {
+            child++;
+        }
+        if(a[child]<a[parent])
+        {
+            Swap(&a[parent],&a[child]);
+            parent=child;
+            child=parent*2+1;
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+int maxProduct(int n) {
+    int* ret=(int*)malloc(sizeof(int)*10);
+    int flag=0;
+    while(n>0)
+    {
+        ret[flag++]=n%10;
+        n/=10;
+    }
+    for(int i=(flag-1-1)/2;i>=0;i--)
+    {
+        AdjustDown(ret,flag,i);
+    }
+    int end=flag-1;
+    while(end>0)
+    {
+        Swap(&ret[0],&ret[end]);
+        AdjustDown(ret,end,0);
+        end--;
+    }
+    return ret[0]*ret[1];
+}©leetcode
