@@ -1,0 +1,32 @@
+int* rightSideView(struct TreeNode* root, int* returnSize) {
+    int* ret=malloc(sizeof(int)*100);
+    *returnSize=0;
+    if(root==NULL)
+    {
+        return ret;
+    }
+    struct TreeNode* queue[100];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        for(int i=start;i<head;i++)
+        {
+            if(i==head-1)
+            {
+                ret[(*returnSize)++]=queue[i]->val;
+            }
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+    }
+    return ret;
+}
