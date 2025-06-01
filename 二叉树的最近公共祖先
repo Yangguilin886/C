@@ -1,0 +1,43 @@
+void PrevOder(struct TreeNode* root,struct TreeNode* p, struct TreeNode* q,int* flag1,int*flag2)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    if(root==p)
+    {
+        *flag1=1;
+    }
+    
+    if(root==q)
+    {
+        *flag2=1;
+    }
+    PrevOder(root->left,p,q,flag1,flag2);
+    PrevOder(root->right,p,q,flag1,flag2);
+}
+void  PostOder(struct TreeNode* root,struct TreeNode* p, struct TreeNode* q,struct TreeNode** tmp)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    PostOder(root->left,p,q,tmp);
+    PostOder(root->right,p,q,tmp);
+    if(*tmp!=NULL)
+    {
+        return;
+    }
+    int flag1=0,flag2=0;
+    PrevOder(root,p,q,&flag1,&flag2);
+    if(flag1==1&&flag2==1)
+    {
+        *tmp=root;
+    }
+}
+struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {
+    struct TreeNode* tmp=malloc(sizeof(struct TreeNode));
+    tmp=NULL;
+    PostOder(root,p,q,&tmp);
+    return tmp;
+}
