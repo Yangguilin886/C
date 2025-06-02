@@ -1,0 +1,31 @@
+void PrevOder(struct TreeNode* root,char** ret,int* stack,int top,int* returnSize)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->left!=NULL||root->right!=NULL)
+    {
+        stack[top++]=root->val;
+        PrevOder(root->left,ret,stack,top,returnSize);
+        PrevOder(root->right,ret,stack,top,returnSize);
+    }
+    else
+    {
+        char* tmp=malloc(sizeof(char)*300);
+        int len=0;
+        for(int i=0;i<top;i++)
+        {
+            len=len+sprintf(tmp+len,"%d->",stack[i]);
+        }
+        sprintf(tmp+len,"%d",root->val);
+        ret[(*returnSize)++]=tmp;
+    }
+}
+char** binaryTreePaths(struct TreeNode* root, int* returnSize) {
+    char** ret=malloc(sizeof(char*)*100);
+    *returnSize=0;
+    int stack[100];
+    PrevOder(root,ret,stack,0,returnSize);
+    return ret;
+}
