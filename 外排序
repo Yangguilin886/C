@@ -1,0 +1,104 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+void GerctyFile()
+{
+	int n = 10000;
+	srand(time(0));
+	const char* fond = "data.txt";
+	FILE* file = fopen(fond, "w");
+	int x = 0;
+	for (int i = 0; i < n; i++)
+	{
+		x = rand() + i;
+		fprintf(file,"%d\n", x);
+	}
+	fclose(file);
+}
+int compare(const void* p1, const void* p2)
+{
+	return *(int*)p1 - *(int*)p2;
+}
+int ReadNDataSortToFile(FILE* font, const char* file1,int n)
+{
+	int* a = malloc(sizeof(int) * n);
+	FILE* fond1 = fopen(file1, "w");
+	int x = 0;
+	int j = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (fscanf(font, "%d", &x) == EOF)
+		{
+			break;
+		}
+		a[j++] = x;
+	}
+	qsort(a, j, sizeof(int), compare);
+	for (int i = 0; i < j; i++)
+	{
+		fprintf(fond1, "%d\n", a[i]);
+	}
+	fclose(fond1);
+	free(a);
+	a = NULL;
+	return j;
+}
+void MergeFile(const char* file1, const char* file2,const char* mfile)
+{
+	FILE* fond1 = fopen(file1, "r");
+	FILE* fond2 = fopen(file2, "r");
+	FILE* mfond = fopen(mfile, "w");
+	int x1 = 0;
+	int x2 = 0;
+	int ret1 = fscanf(fond1, "%d", &x1);
+	int ret2 = fscanf(fond2, "%d", &x2);
+	while (ret1 != EOF && ret2!= EOF)
+	{
+		if (x1 < x2)
+		{
+			fprintf(mfond,"%d\n", x1);
+			 ret1 =fscanf(fond1, "%d", &x1);
+		}
+		else
+		{
+			fprintf(mfond, "%d\n", x2);
+			ret2 = fscanf(fond2, "%d", &x2);
+		}
+	}
+	while (ret1!= EOF)
+	{
+		fprintf(mfond, "%d\n", x1);
+		ret1=fscanf(fond1, "%d", &x1);
+	}
+	while (ret2!= EOF)
+	{
+		fprintf(mfond, "%d\n", x2);
+		ret2=fscanf(fond2, "%d", &x2);
+	}
+	fclose(fond1);
+	fclose(fond2);
+	fclose(mfond);
+}
+int main()
+{
+	/*GerctyFile();*/
+	const char* file1 = "file1.txt";
+	const char* file2 = "file2.txt";
+	const char* mfile = "mfile.txt";
+	FILE* font = fopen("data.txt", "r");
+	int m = 100;
+	ReadNDataSortToFile(font, file1, m);
+	ReadNDataSortToFile(font, file2,m);
+	while (1)
+	{
+		MergeFile(file1,file2,mfile);
+		remove(file1);
+		remove(file2);
+		rename(mfile, file1);
+		if (ReadNDataSortToFile(font, file2, m) == 0)
+		{
+			break;
+		}
+	}
+}
