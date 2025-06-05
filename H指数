@@ -1,0 +1,28 @@
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p1-*(int*)p2;
+}
+int hIndex(int* citations, int citationsSize) {
+    qsort(citations,citationsSize,sizeof(int),compare);
+    int* ret=(int*)calloc(citationsSize,sizeof(int));
+    for(int i=0;i<citationsSize;i++)
+    {
+        for(int j=citations[i];j>=1;j--)
+        {
+            if(j>citationsSize)
+            {
+                j=citationsSize;
+            }
+            ret[j-1]++;
+        }
+    }
+    int flag=0;
+    for(int i=0;i<citationsSize;i++)
+    {
+        if(ret[i]>=i+1)
+        {
+            flag=i+1;
+        }
+    }
+    return flag;
+}
