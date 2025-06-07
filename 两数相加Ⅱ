@@ -1,0 +1,65 @@
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    int stack1[100];
+    int start1=0,end1=0;
+    int stack2[100];
+    int start2=0,end2=0;
+    struct ListNode* cur=l1;
+    while(cur)
+    {
+        stack1[end1++]=cur->val;
+        cur=cur->next;
+    }
+    cur=l2;
+    while(cur)
+    {
+        stack2[end2++]=cur->val;
+        cur=cur->next;
+    }
+    int ret[100];
+    int i=0;
+    int flag=0;
+    end1--;
+    end2--;
+    while(start1<=end1&&start2<=end2)
+    {
+        int n=stack1[end1--]+stack2[end2--]+flag;
+        ret[i++]=n%10;
+        flag=n/10;
+    }
+    while(start1<=end1)
+    {
+        int n=stack1[end1--]+flag;
+        ret[i++]=n%10;
+        flag=n/10;
+    }
+    while(start2<=end2)
+    {
+        int n=stack2[end2--]+flag;
+        ret[i++]=n%10;
+        flag=n/10;
+    }
+    if(flag!=0)
+    {
+        ret[i++]=flag;
+    }
+    struct ListNode* head=NULL;
+    struct ListNode* tail=NULL;
+    i--;
+    while(i>=0)
+    {
+        struct ListNode* tmp=malloc(sizeof(struct ListNode));
+        tmp->val=ret[i];
+        tmp->next=NULL;
+        if(head==NULL)
+        {
+            head=tail=tmp;
+        }
+        else
+        {
+            tail->next=tmp;
+            tail=tail->next;
+        }
+        i--;
+    }
+    return head;
+}
