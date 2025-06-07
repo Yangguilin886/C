@@ -1,0 +1,54 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume
+ * caller calls free().
+ */
+int compare(const void* p1, const void* p2) { return *(int*)p1 - *(int*)p2; }
+int** fourSum(int* nums, int numsSize, int target, int* returnSize,
+              int** returnColumnSizes) {
+    int** ret = (int**)malloc(sizeof(int*) * 20000);
+    *returnSize = 0;
+    qsort(nums, numsSize, sizeof(int), compare);
+    for (int i = 0; i < numsSize - 3; i++) {
+        if (i > 0 && nums[i] == nums[i - 1]) {
+            continue;
+        }
+        for (int j = i + 1; j < numsSize - 2; j++) {
+            if (j > i + 1 && nums[j] == nums[j - 1]) {
+                continue;
+            }
+            int left = j + 1;
+            int right = numsSize - 1;
+            while (left < right) {
+                long n = 0;
+                n=(long)nums[i] + (long)nums[j] + (long)nums[left] + (long)nums[right];
+                if (n > target) {
+                    right--;
+                } else if (n < target) {
+                    left++;
+                } else {
+                    int* tmp = malloc(sizeof(int) * 4);
+                    tmp[0] = nums[i];
+                    tmp[1] = nums[j];
+                    tmp[2] = nums[left];
+                    tmp[3] = nums[right];
+                    ret[(*returnSize)++] = tmp;
+                    while (left < right && nums[left + 1] == nums[left]) {
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }
+            }
+        }
+    }
+    *(returnColumnSizes) = malloc(sizeof(int) * (*returnSize));
+    for (int i = 0; i < (*returnSize); i++) {
+        (*returnColumnSizes)[i] = 4;
+    }
+    return ret;
+}
