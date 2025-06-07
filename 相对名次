@@ -1,0 +1,49 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p2-*(int*)p1;
+}
+char** findRelativeRanks(int* score, int scoreSize, int* returnSize) {
+    char** answer=(char**)malloc(sizeof(char*)*scoreSize);
+    int ret[scoreSize];
+    for(int i=0;i<scoreSize;i++)
+    {
+        ret[i]=score[i];
+    }
+    qsort(ret,scoreSize,sizeof(int),compare);
+    *returnSize=scoreSize;
+    for(int i=0;i<scoreSize;i++)
+    {
+        int j=0;
+        for(j=0;j<scoreSize;j++)
+        {
+            if(ret[i]==score[j])
+            {
+                break;
+            }
+        }
+        if(i==0)
+        {
+            answer[j]=malloc(sizeof(char)*13);
+            strcpy(answer[j],"Gold Medal");
+        }
+        else if(i==1)
+        {
+            answer[j]=malloc(sizeof(char)*13);
+            strcpy(answer[j],"Silver Medal");
+        }
+        else if(i==2)
+        {
+            answer[j]=malloc(sizeof(char)*13);
+            strcpy(answer[j],"Bronze Medal");
+        }
+        else
+        {
+            answer[j]=malloc(sizeof(char)*13);
+            sprintf(answer[j],"%d",i+1);
+        }
+    }
+    return answer;
+}
