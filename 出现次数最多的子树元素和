@@ -1,0 +1,62 @@
+void AddTree(struct TreeNode* root,int* tmp)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    (*tmp)+=root->val;
+    AddTree(root->left,tmp);
+    AddTree(root->right,tmp);
+}
+void preorder(struct TreeNode* root,int*ret,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    int tmp=0;
+    AddTree(root,&tmp);
+    ret[(*n)++]=tmp;
+    preorder(root->left,ret,n);
+    preorder(root->right,ret,n);
+}
+int* findFrequentTreeSum(struct TreeNode* root, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*10000);
+    *returnSize=0;
+    int n=0;
+    preorder(root,ret,&n);
+    int max=ret[0],min=ret[0];
+    for(int i=0;i<n;i++)
+    {
+        if(ret[i]>max)
+        {
+            max=ret[i];
+        }
+        if(ret[i]<min)
+        {
+            min=ret[i];
+        }
+    }
+    int rand=max-min+1;
+    int* tmp=(int*)calloc((max-min+1),sizeof(int));
+    for(int i=0;i<n;i++)
+    {
+        tmp[ret[i]-min]++;
+    }
+    max=tmp[0];
+    for(int i=0;i<rand;i++)
+    {
+        if(tmp[i]>max)
+        {
+            max=tmp[i];
+        }
+    }
+    for(int i=0;i<rand;i++)
+    {
+        if(tmp[i]==max)
+        {
+            ret[(*returnSize)++]=i+min;
+        }
+    }
+    return ret;
+}
