@@ -1,0 +1,24 @@
+int findBottomLeftValue(struct TreeNode* root) {
+    struct TreeNode* queue[10000];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    int flag=0;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        flag=queue[start]->val;
+        for(int i=start;i<head;i++)
+        {
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+    }
+    return flag;
+}
