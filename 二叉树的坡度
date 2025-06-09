@@ -1,0 +1,28 @@
+void TreeAdd(struct TreeNode* root,int* tmp)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    *tmp+=root->val;
+    TreeAdd(root->left,tmp);
+    TreeAdd(root->right,tmp);
+}
+void preorder(struct TreeNode* root,int* n)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    int left=0,right=0;
+    TreeAdd(root->left,&left);
+    TreeAdd(root->right,&right);
+    *n+=abs(left-right);
+    preorder(root->left,n);
+    preorder(root->right,n);
+}
+int findTilt(struct TreeNode* root) {
+    int ret=0;
+    preorder(root,&ret);
+    return ret;
+}
