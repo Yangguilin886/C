@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void preorder(struct TreeNode* root,char* ret,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    ret[(*n)++]='(';
+    sprintf(ret+*n,"%d",root->val);
+    if(root->val<=0)
+    {
+        (*n)++;
+    }
+    for(int i=root->val;i!=0;i/=10)
+    {
+        (*n)++;
+    }
+    if(root->left&&root->right)
+    {
+        preorder(root->left,ret,n);
+        preorder(root->right,ret,n);
+    }
+    if(root->left==NULL&&root->right!=NULL)
+    {
+        ret[(*n)++]='(';
+        ret[(*n)++]=')';
+        preorder(root->right,ret,n);
+    }
+    if(root->left&&root->right==NULL)
+    {
+        preorder(root->left,ret,n);
+    }
+    ret[(*n)++]=')';
+}
+char* tree2str(struct TreeNode* root) {
+    char* ret=(char*)malloc(sizeof(char)*100000);
+    int n=0;
+    preorder(root,ret,&n);
+    ret[n-1]='\0';
+    return ret+1;
+}
