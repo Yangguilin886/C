@@ -1,0 +1,30 @@
+/**
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     int numChildren;
+ *     struct Node** children;
+ * };
+ */
+
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+void _postorder(struct Node* root,int* ret,int* returnSize)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    for(int i=0;i<root->numChildren;i++)
+    {
+        _postorder(root->children[i],ret,returnSize);
+    }
+    ret[(*returnSize)++]=root->val;
+}
+int* postorder(struct Node* root, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*10000);
+    *returnSize=0;
+    _postorder(root,ret,returnSize);
+    return ret;
+}
