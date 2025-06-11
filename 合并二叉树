@@ -1,0 +1,41 @@
+void preorder(struct TreeNode* root1,struct TreeNode* root2)
+{
+    if(root1==NULL&&root2==NULL)
+    {
+        return;
+    }
+    if(root1&&root2==NULL)
+    {
+        return;
+    }
+    root1->val=root1->val+root2->val;
+    if(root1->left==NULL&&root2->left)
+    {
+        root1->left=root2->left;
+        if(root1->right==NULL)
+        {
+            root1->right=root2->right;
+            return;
+        }
+        preorder(root1->right,root2->right);
+    }
+    else if(root1->right==NULL&&root2->right)
+    {
+        root1->right=root2->right;
+        preorder(root1->left,root2->left);
+    }
+    else 
+    {
+        preorder(root1->left,root2->left);
+        preorder(root1->right,root2->right);
+    }
+}
+struct TreeNode* mergeTrees(struct TreeNode* root1, struct TreeNode* root2) {
+    if(root1==NULL)
+    {
+        root1=root2;
+        root2=NULL;
+    }
+    preorder(root1,root2);
+    return root1;
+}
