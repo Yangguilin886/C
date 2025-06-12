@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+double* averageOfLevels(struct TreeNode* root, int* returnSize) {
+    double* ret=(double*)malloc(sizeof(double)*10000);
+    *returnSize=0;
+    struct TreeNode* queue[10000];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        int n=head-start;
+        double tmp=0;
+        for(int i=start;i<head;i++)
+        {
+            tmp+=queue[i]->val;
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+        ret[(*returnSize)++]=tmp*1.0/n;
+    }
+    return ret;
+}
