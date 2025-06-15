@@ -1,0 +1,28 @@
+struct TreeNode* Gerge(int* nums,int left,int right)
+{
+    if(left>right)
+    {
+        return NULL;
+    }
+    int max=nums[left];
+    int flag=left;
+    for(int i=left;i<=right;i++)
+    {
+        if(nums[i]>max)
+        {
+            flag=i;
+            max=nums[i];
+        }
+    }
+    struct TreeNode* ret=malloc(sizeof(struct TreeNode));
+    ret->val=max;
+    ret->left=NULL;
+    ret->right=NULL;
+    ret->left=Gerge(nums,left,flag-1);
+    ret->right=Gerge(nums,flag+1,right);
+    return ret;
+    
+}
+struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
+    return Gerge(nums,0,numsSize-1);
+}
