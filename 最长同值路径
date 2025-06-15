@@ -1,0 +1,27 @@
+int postorder(struct TreeNode* root,int* n,int value)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int left=postorder(root->left,n,root->val);
+    int right=postorder(root->right,n,root->val);
+    *n=fmax(*n,left+right);
+    if(root->val==value)
+    {
+        return fmax(left,right)+1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+int longestUnivaluePath(struct TreeNode* root) {
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int n=0;
+    postorder(root,&n,root->val);
+    return n;
+}
