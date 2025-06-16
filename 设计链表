@@ -1,0 +1,120 @@
+// 链表节点
+typedef struct Node{
+    int val;
+    struct Node* next;
+}Node;
+
+typedef struct{
+    int size;           // size为链表中除去虚拟节点后的节点个数
+    Node* data;         // data即为一个链表
+} MyLinkedList;
+
+MyLinkedList* myLinkedListCreate() {   
+    MyLinkedList* obj = (MyLinkedList*)malloc(sizeof(MyLinkedList));
+    // 链表的第一个节点为虚拟头节点，其值不固定
+    Node* head = malloc(sizeof(Node));
+    head->next = NULL;
+    obj->data = head;
+    // 初始节点为0
+    obj->size = 0;
+    return obj;
+}
+
+int myLinkedListGet(MyLinkedList* obj, int index) {
+    // 若索引超出范围，返回-1
+    if(index < 0 || index >= obj->size) return -1;
+    // 遍历链表，找到索引对应节点
+    Node* cur = obj->data;
+    while(index >= 0){
+        cur = cur->next;
+        index--;
+    }
+    return cur->val;
+}
+
+void myLinkedListAddAtHead(MyLinkedList* obj, int val) {
+    Node* node = malloc(sizeof(Node));
+    node->val = val;
+    // 因为链表的第一个节点为虚拟头节点，其后的节点才为真正的头节点，因此在虚拟头节点后插入节点
+    node->next = obj->data->next;
+    obj->data->next = node;
+    // 节点数加1
+    (obj->size)++;
+}
+
+void myLinkedListAddAtTail(MyLinkedList* obj, int val) {
+    // 找到链表的最后一个节点
+    Node* cur = obj->data;
+    while(cur->next){
+        cur = cur->next;
+    }
+    // 在最后节点的后面添加一个节点
+    Node* node = malloc(sizeof(Node));
+    node->val = val;
+    node->next = NULL;
+    cur->next = node;
+    // 节点数加1
+    (obj->size)++;
+}
+
+void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
+    // 超出索引范围，不做操作
+    if(index > obj->size) return;
+    Node* cur = obj->data;
+    // 找到索引对应节点的前一个节点
+    while(index > 0){
+        cur = cur->next;
+        index--;
+    }
+    // 在找到的对应节点后添加节点
+    Node* node = malloc(sizeof(Node));
+    node->val = val;
+    node->next = cur->next;
+    cur->next = node;
+    // 节点数加1
+    (obj->size)++;
+}
+
+void myLinkedListDeleteAtIndex(MyLinkedList* obj, int index) {
+    // 超出范围，不做操作
+    if(index < 0 || index >= obj->size) return;
+    Node* cur = obj->data;
+    // 找到索引对应节点的前一个结点
+	while (index > 0) {
+        cur = cur->next;
+        index--;
+    }
+    // 将索引节点删除
+    Node* temp = cur->next;
+    cur->next = temp->next;
+    free(temp);
+    // 节点数减1
+    (obj->size--);
+}
+
+void myLinkedListFree(MyLinkedList* obj) {
+    Node* temp = obj->data;
+    // 遍历链表，释放空间
+    while(temp){
+        Node* n = temp;
+        temp = temp->next;
+        free(n);
+    }
+    free(obj);
+}
+
+/**
+ * Your MyLinkedList struct will be instantiated and called as such:
+ * MyLinkedList* obj = myLinkedListCreate();
+ * int param_1 = myLinkedListGet(obj, index);
+ 
+ * myLinkedListAddAtHead(obj, val);
+ 
+ * myLinkedListAddAtTail(obj, val);
+ 
+ * myLinkedListAddAtIndex(obj, index, val);
+ 
+ * myLinkedListDeleteAtIndex(obj, index);
+ 
+ * myLinkedListFree(obj);
+*/
