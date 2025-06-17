@@ -1,0 +1,37 @@
+bool HaveOne(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    if(root->val==1)
+    {
+        return true;
+    }
+    return HaveOne(root->left)||HaveOne(root->right);
+}
+void preorder(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(!HaveOne(root->left))
+    {
+        root->left=NULL;
+    }
+    if(!HaveOne(root->right))
+    {
+        root->right=NULL;
+    }
+    preorder(root->left);
+    preorder(root->right);
+}
+struct TreeNode* pruneTree(struct TreeNode* root) {
+    preorder(root);
+    if(root->val==0&&(root->left==NULL&&root->right==NULL))
+    {
+        return NULL;
+    }
+    return root;
+}
