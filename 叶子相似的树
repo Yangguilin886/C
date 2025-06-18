@@ -1,0 +1,32 @@
+void preorder(struct TreeNode* root,int* ret,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->left==NULL&&root->right==NULL)
+    {
+        ret[(*n)++]=root->val;
+    }
+    preorder(root->left,ret,n);
+    preorder(root->right,ret,n);
+}
+bool leafSimilar(struct TreeNode* root1, struct TreeNode* root2) {
+    int* ret1=(int*)malloc(sizeof(int)*200);
+    int* ret2=(int*)malloc(sizeof(int)*200);
+    int n=0,m=0;
+    preorder(root1,ret1,&n);
+    preorder(root2,ret2,&m);
+    if(m!=n)
+    {
+        return false;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(ret1[i]!=ret2[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
