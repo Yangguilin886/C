@@ -1,0 +1,45 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p1-*(int*)p2;
+}
+int** divideArray(int* nums, int numsSize, int k, int* returnSize, int** returnColumnSizes) {
+    qsort(nums,numsSize,sizeof(int),compare);
+    int** ret=malloc(sizeof(int*)*(numsSize/3));
+    (*returnColumnSizes)=malloc(sizeof(int)*(numsSize/3));
+    *returnSize=0;
+    int flag=1;
+    for(int i=0;i<numsSize;i+=3)
+    {
+        if(nums[i+2]-nums[i]>k)
+        {
+            flag=0;
+            break;
+        }
+    }
+    if(flag==0)
+    {
+        return ret;
+    }
+    for(int i=0;i<numsSize-2;i+=3)
+    {
+        int n=3;
+        int j=0;
+        int* tmp=malloc(sizeof(int)*3);
+        while(n--)
+        {
+            tmp[j++]=nums[i+j];
+        }
+        ret[*returnSize]=tmp;
+        (*returnSize)++;
+    }
+    for(int i=0;i<*returnSize;i++)
+    {
+        (*returnColumnSizes)[i]=3;
+    }
+    return ret;
+}
