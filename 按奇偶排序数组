@@ -1,0 +1,25 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+int* sortArrayByParity(int* nums, int numsSize, int* returnSize) {
+    int left=0,right=numsSize-1;
+    while(left<right)
+    {
+        if(nums[left]%2==0)
+        {
+            left++;
+            continue;
+        }
+        if(nums[right]%2!=0)
+        {
+            right--;
+            continue;
+        }
+        Swap(&nums[left],&nums[right]);
+    }
+    *returnSize=numsSize;
+    return nums;
+}
