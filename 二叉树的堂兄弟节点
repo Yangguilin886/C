@@ -1,0 +1,35 @@
+bool preorder(struct TreeNode* root,int x,int y)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    if((root->left&&root->right)&&((root->left->val==x&&root->right->val==y)||(root->left->val==y&&root->right->val==x)))
+    {
+        return true;
+    }
+    return preorder(root->left,x,y)||preorder(root->right,x,y);
+}
+void TreeHight(struct TreeNode* root,int x,int* n,int h)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->val==x)
+    {
+        *n=h;
+    }
+    TreeHight(root->left,x,n,h+1);
+    TreeHight(root->right,x,n,h+1);
+}
+bool isCousins(struct TreeNode* root, int x, int y) {
+    int h=0,flag1,flag2;
+    TreeHight(root,x,&flag1,h);
+    TreeHight(root,y,&flag2,h);
+    if(flag1!=flag2)
+    {
+        return false;
+    }
+    return !preorder(root,x,y);
+}
