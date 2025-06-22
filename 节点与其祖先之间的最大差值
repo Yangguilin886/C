@@ -1,0 +1,42 @@
+void FindMin(struct TreeNode* root,int* min,int* max1)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->val<*min)
+    {
+        *min=root->val;
+    }
+    if(root->val>*max1)
+    {
+        *max1=root->val;
+    }
+    FindMin(root->left,min,max1);
+    FindMin(root->right,min,max1);
+}
+void preorder(struct TreeNode* root,int* max)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    int min=100000;
+    int max1=0;
+    FindMin(root,&min,&max1);
+    if((root->val)-min>*max)
+    {
+        *max=root->val-min;
+    }
+    if(abs(root->val-max1)>*max)
+    {
+        *max=abs(root->val-max1);
+    }
+    preorder(root->left,max);
+    preorder(root->right,max);
+}
+int maxAncestorDiff(struct TreeNode* root) {
+    int max=0;
+    preorder(root,&max);
+    return max;
+}
