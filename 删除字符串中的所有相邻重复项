@@ -1,0 +1,18 @@
+char* removeDuplicates(char* s) {
+    int n=strlen(s);
+    char* ret=(char*)malloc(sizeof(char)*100000);
+    int flag=0;
+    for(int i=0;i<n;i++)
+    {
+        if(flag>0&&s[i]==ret[flag-1])
+        {
+            flag--;
+        }
+        else
+        {
+            ret[flag++]=s[i];
+        }
+    }
+    ret[flag]='\0';
+    return ret;
+}
