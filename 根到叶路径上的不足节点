@@ -1,0 +1,24 @@
+struct TreeNode* preorder(struct TreeNode* root,int limit,int sum)
+{
+    if(root==NULL)
+    {
+        return NULL;
+    }
+    if(root->left==NULL&&root->right==NULL)
+    {
+        if(sum+root->val<limit)
+        {
+            return NULL;
+        }
+        else
+        {
+            return root;
+        }
+    }
+    root->left=preorder(root->left,limit,sum+root->val);
+    root->right=preorder(root->right,limit,sum+root->val);
+    return (root->left==NULL&&root->right==NULL)?NULL:root;
+}
+struct TreeNode* sufficientSubset(struct TreeNode* root, int limit) {
+    return preorder(root,limit,0);
+}
