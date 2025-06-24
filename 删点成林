@@ -1,0 +1,64 @@
+void preorder(struct TreeNode* root,struct TreeNode** parent,struct TreeNode** nodes)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    nodes[root->val]=root;
+    if(root->left)
+    {
+        parent[root->left->val]=root;
+        preorder(root->left,parent,nodes);
+    }
+    if(root->right)
+    {
+        parent[root->right->val]=root;
+        preorder(root->right,parent,nodes);
+    }
+}
+struct TreeNode** delNodes(struct TreeNode* root, int* to_delete, int to_deleteSize, int* returnSize){
+    struct TreeNode** parent=(struct TreeNode**)malloc(sizeof(struct TreeNode*)*1001);
+    memset(parent,0,sizeof(struct TreeNode*)*1001);
+    struct TreeNode** nodes=(struct TreeNode**)malloc(sizeof(struct TreeNode*)*1001);
+    memset(nodes,0,sizeof(struct TreeNode*)*1001);
+    preorder(root,parent,nodes);
+    struct TreeNode** ret=(struct TreeNode**)malloc(sizeof(struct TreeNode*)*1001);
+    int* sum=(int*)calloc(1001,sizeof(int));
+    sum[root->val]=1;
+    for(int i=0;i<to_deleteSize;i++)
+    {
+        int n=to_delete[i];
+        struct TreeNode* prev=nodes[n];
+        struct TreeNode* cur=parent[n];
+        if(cur)
+        {
+            if(cur->right==prev)
+            {
+                cur->right=NULL;
+            }
+            else
+            {
+                cur->left=NULL;
+            }
+        }
+        sum[n]=0;
+        if(prev->left)
+        {
+            sum[prev->left->val]=1;
+        }
+        if(prev->right)
+        {
+            sum[prev->right->val]=1;
+        }
+    }
+    int m=0;
+    for(int i=0;i<1001;i++)
+    {
+        if(sum[i]!=0)
+        {
+            ret[m++]=nodes[i];
+        }
+    }
+    *returnSize=m;
+    return ret;
+}
