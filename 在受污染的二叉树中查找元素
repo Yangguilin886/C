@@ -1,0 +1,57 @@
+typedef struct {
+    struct TreeNode* root;
+} FindElements;
+
+void preorder(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->left)
+    {
+        root->left->val=root->val*2+1;
+    }
+    if(root->right)
+    {
+        root->right->val=root->val*2+2;
+    }
+    preorder(root->left);
+    preorder(root->right);
+}
+FindElements* findElementsCreate(struct TreeNode* root) {
+    root->val=0;
+    preorder(root);
+    FindElements* ret=malloc(sizeof(FindElements));
+    ret->root=root;
+    return ret;
+}
+bool preordertwo(struct TreeNode* root,int target)
+{
+    if(root==NULL)
+    {
+        return false;
+    }
+    if(root->val==target)
+    {
+        return true;
+    }
+    return preordertwo(root->left,target)||preordertwo(root->right,target);
+}
+bool findElementsFind(FindElements* obj, int target) {
+    return preordertwo(obj->root,target);
+}
+void postorder(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    free(root);
+    root=NULL;
+}
+void findElementsFree(FindElements* obj) {
+    postorder(obj->root);
+}
