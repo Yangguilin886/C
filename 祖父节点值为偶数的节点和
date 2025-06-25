@@ -1,0 +1,33 @@
+void preorder(struct TreeNode* root,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->val%2==0)
+    {
+        if(root->left&&root->left->left)
+        {
+            *n+=root->left->left->val;
+        }
+        if(root->left&&root->left->right)
+        {
+            *n+=root->left->right->val;
+        }
+        if(root->right&&root->right->left)
+        {
+            *n+=root->right->left->val;
+        }
+        if(root->right&&root->right->right)
+        {
+            *n+=root->right->right->val;
+        }
+    }
+    preorder(root->left,n);
+    preorder(root->right,n);
+}
+int sumEvenGrandparent(struct TreeNode* root) {
+    int n=0;
+    preorder(root,&n);
+    return n;
+}
