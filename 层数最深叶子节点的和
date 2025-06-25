@@ -1,0 +1,27 @@
+int TreeHight(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return fmax(TreeHight(root->left),TreeHight(root->right))+1;
+}
+void preorder(struct TreeNode* root,int* n,int h)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(h==1)
+    {
+        (*n)+=root->val;
+    }
+    preorder(root->left,n,h-1);
+    preorder(root->right,n,h-1);
+}
+int deepestLeavesSum(struct TreeNode* root) {
+    int h=TreeHight(root);
+    int n=0;
+    preorder(root,&n,h);
+    return n;
+}
