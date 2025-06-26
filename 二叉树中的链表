@@ -1,0 +1,41 @@
+bool FindList(struct TreeNode* root,struct ListNode* cur)
+{
+    if(cur==NULL)
+    {
+        return true;
+    }
+    if(root==NULL)
+    {
+        return false;
+    }
+    if(root->val!=cur->val)
+    {
+        return false;
+    }
+    return FindList(root->left,cur->next)||FindList(root->right,cur->next);
+    
+}
+void preorder(struct TreeNode* root,struct ListNode* head,int* flag)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    struct ListNode* cur=head;
+    if(FindList(root,cur))
+    {
+        *flag=1;
+        return;
+    }
+    preorder(root->left,head,flag);
+    preorder(root->right,head,flag);
+}
+bool isSubPath(struct ListNode* head, struct TreeNode* root) {
+    int flag=0;
+    preorder(root,head,&flag);
+    if(flag==1)
+    {
+        return true;
+    }
+    return false;
+}
