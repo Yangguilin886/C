@@ -1,0 +1,58 @@
+void Roodsum(struct TreeNode* root,int* m,int flag)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    (*m)++;
+    if(flag==0)
+    {
+        Roodsum(root->left,m,1);
+    }
+    if(flag==1)
+    {
+        Roodsum(root->right,m,0);
+    }
+}
+void preorder(struct TreeNode* root,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(*n>root->val)
+    {
+        return;
+    }
+    int m=0,flag=0;
+    Roodsum(root,&m,flag);
+    if(m-1>*n)
+    {
+        *n=m-1;
+    }
+    m=0;
+    flag=1;
+    Roodsum(root,&m,flag);
+    if(m-1>*n)
+    {
+        *n=m-1;
+    }
+    preorder(root->left,n);
+    preorder(root->right,n);
+}
+int TreeHight(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int n=fmax(TreeHight(root->left),TreeHight(root->right));
+    root->val=n;
+    return n+1;
+}
+int longestZigZag(struct TreeNode* root) {
+    int n=0;
+    int h=TreeHight(root);
+    preorder(root,&n);
+    return n;
+}
