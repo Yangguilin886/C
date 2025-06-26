@@ -1,0 +1,22 @@
+struct TreeNode* postorder(struct TreeNode* root,int target)
+{
+    if(root==NULL)
+    {
+        return NULL;
+    }
+    root->left=postorder(root->left,target);
+    root->right=postorder(root->right,target);
+    if(root->left==NULL&&root->right==NULL&&root->val==target)
+    {
+        return NULL;
+    }
+    return root;
+}
+struct TreeNode* removeLeafNodes(struct TreeNode* root, int target) {
+    postorder(root,target);
+    if(root->left==NULL&&root->right==NULL&&root->val==target)
+    {
+        return NULL;
+    }
+    return root;
+}
