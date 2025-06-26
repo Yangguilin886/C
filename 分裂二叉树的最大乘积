@@ -1,0 +1,31 @@
+int AddTree(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int left=AddTree(root->left);
+    int right=AddTree(root->right);
+    root->val+=left+right;
+    return root->val;
+}
+void FindMax(struct TreeNode* root,long long n,long long* max)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    long long flag=(n-root->val)*root->val;
+    if(flag>*max)
+    {
+        *max=flag;
+    }
+    FindMax(root->left,n,max);
+    FindMax(root->right,n,max);
+}
+int maxProduct(struct TreeNode* root) {
+    long long n=AddTree(root);
+    long long max=0;
+    FindMax(root,n,&max);
+    return max%1000000007;
+}
