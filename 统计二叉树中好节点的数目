@@ -1,0 +1,20 @@
+void preorder(struct TreeNode* root,int* n,int max)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->val>=max)
+    {
+        (*n)++;
+        max=root->val;
+    }
+    preorder(root->left,n,max);
+    preorder(root->right,n,max);
+}
+int goodNodes(struct TreeNode* root) {
+    int n=0;
+    int max=root->val;
+    preorder(root,&n,max);
+    return n;
+}
