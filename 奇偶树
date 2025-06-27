@@ -1,0 +1,56 @@
+bool isEvenOddTree(struct TreeNode* root) {
+    struct TreeNode* queue[100000];
+    int head=0,tail=0;
+    int h=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        int max=0;
+        int min=1000001;
+        for(int i=start;i<head;i++)
+        {
+            if(h%2==0)
+            {
+                if((queue[i]->val)%2==0)
+                {
+                    return false;
+                }
+                if((queue[i]->val)<=max)
+                {
+                    return false;
+                }
+                else
+                {
+                    max=queue[i]->val;
+                }
+            }
+            if(h%2!=0)
+            {
+                if((queue[i]->val)%2!=0)
+                {
+                    return false;
+                }
+                if((queue[i]->val)>=min)
+                {
+                    return false;
+                }
+                else
+                {
+                    min=queue[i]->val;
+                }
+            }
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+        h++;
+    }
+    return true;
+}
