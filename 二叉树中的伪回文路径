@@ -1,0 +1,32 @@
+void preorder(struct TreeNode* root,int* ret,int* flag)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    ret[root->val]++;
+    if(root->left==NULL&&root->right==NULL)
+    {
+        int m=0;
+        for(int i=0;i<10;i++)
+        {
+            if(ret[i]%2!=0)
+            {
+                m++;
+            }
+        }
+        if(m<=1)
+        {
+            (*flag)++;
+        }
+    }
+    preorder(root->left,ret,flag);
+    preorder(root->right,ret,flag);
+    ret[root->val]--;
+}
+int pseudoPalindromicPaths (struct TreeNode* root) {
+    int* ret=(int*)calloc(10,sizeof(int));
+    int flag=0;
+    preorder(root,ret,&flag);
+    return flag;
+}
