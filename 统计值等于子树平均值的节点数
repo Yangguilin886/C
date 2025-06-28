@@ -1,0 +1,29 @@
+int SumTree(struct TreeNode* root,int* m)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    (*m)++;
+    return SumTree(root->left,m)+SumTree(root->right,m)+root->val;
+}
+void preorder(struct TreeNode* root,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    int m=0;
+    int flag=SumTree(root,&m);
+    if(flag/m==root->val)
+    {
+        (*n)++;
+    }
+    preorder(root->left,n);
+    preorder(root->right,n);
+}
+int averageOfSubtree(struct TreeNode* root) {
+    int n=0;
+    preorder(root,&n);
+    return n;
+}
