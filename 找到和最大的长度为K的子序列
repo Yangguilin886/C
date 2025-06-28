@@ -1,0 +1,37 @@
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p1-*(int*)p2;
+}
+int* maxSubsequence(int* nums, int numsSize, int k, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*k);
+    int tmp[1000];
+    *returnSize=0;
+    for(int i=0;i<numsSize;i++)
+    {
+        tmp[i]=nums[i];
+    }
+    qsort(tmp,numsSize,sizeof(int),compare);
+    int n=0;
+    int sum[1000];
+    int flag=0;
+    while(n<k)
+    {
+        sum[flag++]=tmp[numsSize-1-n];
+        n++;
+    }
+    flag=0;
+    for(int i=0;i<numsSize;i++)
+    {
+        for(int j=0;j<k;j++)
+        {
+            if(sum[j]==nums[i]&&flag<k)
+            {
+                ret[flag++]=nums[i];
+                sum[j]=-100000;
+                break;
+            }
+        }
+    }
+    *returnSize=k;
+    return ret;
+}
