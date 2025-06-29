@@ -1,0 +1,37 @@
+struct TreeNode* reverseOddLevels(struct TreeNode* root) {
+    struct TreeNode* queue[18000];
+    int head=0,tail=0;
+    int h=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        for(int i=start;i<head;i++)
+        {
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+        if(h%2!=0)
+        {
+            int left=start;
+            int right=head-1;
+            while(left<right)
+            {
+                int tmp=queue[left]->val;
+                queue[left]->val=queue[right]->val;
+                queue[right]->val=tmp;
+                left++;
+                right--;
+            }
+        }
+        h++;
+    }
+    return root;
+}
