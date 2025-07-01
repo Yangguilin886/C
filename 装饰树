@@ -1,0 +1,31 @@
+void preorder(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->left)
+    {
+        struct TreeNode* ret=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+        ret->val=-1;
+        ret->left=NULL;
+        ret->right=NULL;
+        ret->left=root->left;
+        root->left=ret;
+        preorder(root->left->left);
+    }
+    if(root->right)
+    {
+        struct TreeNode* ret=(struct TreeNode*)malloc(sizeof(struct TreeNode));
+        ret->val=-1;
+        ret->left=NULL;
+        ret->right=NULL;
+        ret->right=root->right;
+        root->right=ret;
+        preorder(root->right->right);
+    }
+}
+struct TreeNode* expandBinaryTree(struct TreeNode* root){
+    preorder(root);
+    return root;
+}
