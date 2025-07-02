@@ -1,0 +1,54 @@
+bool SameTree(struct TreeNode* root1,struct TreeNode* root2)
+{
+    if(root1==NULL&&root2)
+    {
+        return false;
+    }
+    if(root2==NULL)
+    {
+        return true;
+    }
+    if(root1->val!=root2->val)
+    {
+        return false;
+    }
+    if(root2->left&&root2->right)
+    {
+        return SameTree(root1->left,root2->left)&&SameTree(root1->right,root2->right);
+    }
+    else if(root2->left&&root2->right==NULL)
+    {
+        return SameTree(root1->left,root2->left);
+    }
+    else if(root2->left==NULL&&root2->right)
+    {
+        return SameTree(root1->right,root2->right);
+    }
+    return true;
+}
+void preorder(struct TreeNode* root1,struct TreeNode* root2,int* flag)
+{
+    if(root1==NULL)
+    {
+        return;
+    }
+    if(SameTree(root1,root2))
+    {
+        *flag=1;
+    }
+    preorder(root1->left,root2,flag);
+    preorder(root1->right,root2,flag);
+}
+bool isSubStructure(struct TreeNode* A, struct TreeNode* B) {
+    if(B==NULL)
+    {
+        return false;
+    }
+    int flag=0;
+    preorder(A,B,&flag);
+    if(flag==1)
+    {
+        return true;
+    }
+    return false;
+}
