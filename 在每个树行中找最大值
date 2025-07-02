@@ -1,11 +1,11 @@
-int* largestValues(struct TreeNode* root, int* returnSize) {
+int* largestValues(struct TreeNode* root, int* returnSize){
+    struct TreeNode* queue[10000];
     int* ret=(int*)malloc(sizeof(int)*10000);
     *returnSize=0;
     if(root==NULL)
     {
         return ret;
     }
-    struct TreeNode* queue[10000];
     int head=0,tail=0;
     queue[tail++]=root;
     while(head!=tail)
@@ -15,6 +15,10 @@ int* largestValues(struct TreeNode* root, int* returnSize) {
         int max=queue[start]->val;
         for(int i=start;i<head;i++)
         {
+            if(queue[i]->val>max)
+            {
+                max=queue[i]->val;
+            }
             if(queue[i]->left)
             {
                 queue[tail++]=queue[i]->left;
@@ -22,10 +26,6 @@ int* largestValues(struct TreeNode* root, int* returnSize) {
             if(queue[i]->right)
             {
                 queue[tail++]=queue[i]->right;
-            }
-            if(queue[i]->val>max)
-            {
-                max=queue[i]->val;
             }
         }
         ret[(*returnSize)++]=max;
