@@ -1,0 +1,38 @@
+int TreeHight(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return fmax(TreeHight(root->left),TreeHight(root->right))+1;
+}
+int findBottomLeftValue(struct TreeNode* root){
+    int h=TreeHight(root);
+    struct TreeNode* queue[10000];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    int n=1;
+    int flag=0;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        for(int i=start;i<head;i++)
+        {
+            if(n==h&&i==start)
+            {
+                flag=queue[i]->val;
+            }
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+        n++;
+    }
+    return flag;
+}
