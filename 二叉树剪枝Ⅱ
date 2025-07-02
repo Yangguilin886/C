@@ -1,0 +1,43 @@
+bool Treezero(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return true;
+    }
+    if(root->val!=0)
+    {
+        return false;
+    }
+    return Treezero(root->left)&&Treezero(root->right);
+}
+void preorder(struct TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->left)
+    {
+        if(Treezero(root->left))
+        {
+            root->left=NULL;
+        }
+    }
+    if(root->right)
+    {
+        if(Treezero(root->right))
+        {
+            root->right=NULL;
+        }
+    }
+    preorder(root->left);
+    preorder(root->right);
+}
+struct TreeNode* pruneTree(struct TreeNode* root){
+    if(Treezero(root))
+    {
+        return NULL;
+    }
+    preorder(root);
+    return root;
+}
