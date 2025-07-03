@@ -1,0 +1,29 @@
+int* decorateRecord(struct TreeNode* root, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*10000);
+    *returnSize=0;
+    if(root==NULL)
+    {
+        return ret;
+    }
+    struct TreeNode* queue[10000];
+    int head=0,tail=0;
+    queue[tail++]=root;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        for(int i=start;i<head;i++)
+        {
+            ret[(*returnSize)++]=queue[i]->val;
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+        }
+    }
+    return ret;
+}
