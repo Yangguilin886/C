@@ -1,0 +1,30 @@
+struct ListNode* swapNodes(struct ListNode* head, int k) {
+    struct ListNode* cur=head;
+    int n=0;
+    while(cur)
+    {
+        cur=cur->next;
+        n++;
+    }
+    cur=head;
+    struct ListNode* flag1=head;
+    struct ListNode* flag2=head;
+    int m=1;
+    while(cur)
+    {
+        if(m==k)
+        {
+            flag1=cur;
+        }
+        if(m==n-k+1)
+        {
+            flag2=cur;
+        }
+        cur=cur->next;
+        m++;
+    }
+    int tmp=flag1->val;
+    flag1->val=flag2->val;
+    flag2->val=tmp;
+    return head;
+}
