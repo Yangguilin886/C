@@ -1,0 +1,165 @@
+struct List
+{
+    int val;
+    struct List* next;
+};
+typedef struct {
+    struct List* phead;
+    struct List* ptail;
+    int size;
+} FrontMiddleBackQueue;
+
+
+FrontMiddleBackQueue* frontMiddleBackQueueCreate() {
+    FrontMiddleBackQueue* ret=(FrontMiddleBackQueue*)malloc(sizeof(FrontMiddleBackQueue));
+    ret->phead=NULL;
+    ret->ptail=NULL;
+    ret->size=0;
+    return ret;
+}
+
+void frontMiddleBackQueuePushFront(FrontMiddleBackQueue* obj, int val) {
+    struct List* ret=(struct List*)malloc(sizeof(struct List));
+    ret->val=val;
+    ret->next=NULL;
+    if(obj->phead==NULL)
+    {
+        obj->phead=obj->ptail=ret;
+    }
+    else
+    {
+        ret->next=obj->phead;
+        obj->phead=ret;
+    }
+    obj->size++;
+}
+
+void frontMiddleBackQueuePushMiddle(FrontMiddleBackQueue* obj, int val) {
+    if(obj->size<2)
+    {
+        frontMiddleBackQueuePushFront(obj,val);
+        return;
+    }
+    struct List* ret=(struct List*)malloc(sizeof(struct List));
+    ret->val=val;
+    ret->next=NULL;
+    int n=1;
+    struct List* cur=obj->phead;
+    while(cur)
+    {
+        if(n==obj->size/2)
+        {
+            break;
+        }
+        cur=cur->next;
+        n++;
+    }
+    struct List* next=cur->next;
+    cur->next=ret;
+    ret->next=next;
+    obj->size++;
+}
+
+void frontMiddleBackQueuePushBack(FrontMiddleBackQueue* obj, int val) {
+    struct List* ret=(struct List*)malloc(sizeof(struct List));
+    ret->val=val;
+    ret->next=NULL;
+    if(obj->phead==NULL)
+    {
+        obj->phead=obj->ptail=ret;
+    }
+    else
+    {
+        obj->ptail->next=ret;
+        obj->ptail=ret;
+    }
+    obj->size++;
+}
+
+int frontMiddleBackQueuePopFront(FrontMiddleBackQueue* obj) {
+    if(obj->size==0)
+    {
+        return -1;
+    }
+    int n=obj->phead->val;
+    struct List* next=obj->phead->next;
+    free(obj->phead);
+    obj->phead=next;
+    obj->size--;
+    return n;
+}
+
+int frontMiddleBackQueuePopMiddle(FrontMiddleBackQueue* obj) {
+    if(obj->size==0)
+    {
+        return -1;
+    }
+    if(obj->size<=2)
+    {
+        return frontMiddleBackQueuePopFront(obj);
+    }
+    int n=1;
+    struct List* cur=obj->phead;
+    while(cur)
+    {
+        if(obj->size%2!=0&&n==obj->size/2)
+        {
+            break;
+        }
+        if(obj->size%2==0&&n==obj->size/2-1)
+        {
+            break;
+        }
+        cur=cur->next;
+        n++;
+    }
+    int m=cur->next->val;
+    struct List* next=cur->next->next;;
+    free(cur->next);
+    cur->next=next;
+    obj->size--;
+    return m;
+}
+
+int frontMiddleBackQueuePopBack(FrontMiddleBackQueue* obj) {
+    if(obj->size==0)
+    {
+        return -1;
+    }
+    int m=0;
+    if(obj->size==1)
+    {
+        m=obj->phead->val;
+        obj->phead=obj->ptail=NULL;
+    }
+    else
+    {
+        struct List* cur=obj->phead;
+        int n=1;
+        while(cur)
+        {
+            if(n==obj->size-1)
+            {
+                break;
+            }
+            cur=cur->next;
+            n++;
+        }
+        m=cur->next->val;
+        free(cur->next);
+        cur->next=NULL;
+        obj->ptail=cur;
+    }
+    obj->size--;
+    return m;
+}
+
+void frontMiddleBackQueueFree(FrontMiddleBackQueue* obj) {
+    struct List* cur=obj->phead;
+    while(obj->size--)
+    {
+        struct List* next=cur->next;
+        free(cur);
+        cur=next;
+    }
+}
