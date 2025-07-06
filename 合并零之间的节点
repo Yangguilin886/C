@@ -1,0 +1,25 @@
+struct ListNode* mergeNodes(struct ListNode* head) {
+    struct ListNode* fast=head->next;
+    struct ListNode* slow=head;
+    int flag=0;
+    while(fast)
+    {
+        flag+=fast->val;
+        struct ListNode* next=fast->next;
+        free(fast);
+        fast=next;
+        if(fast&&fast->val==0)
+        {
+            slow->val=flag;
+            flag=0;
+            slow->next=fast;
+            if(fast->next)
+            {
+                slow=fast;
+            }
+            fast=fast->next;
+        }
+    }
+    slow->next=NULL;
+    return head;
+}
