@@ -1,0 +1,32 @@
+int BigNums(int a,int b)
+{
+    int n=2;
+    int max=a;
+    if(b>max)
+    {
+        max=b;
+    }
+    for(int i=max;i>0;i--)
+    {
+        if(a%i==0&&b%i==0)
+        {
+            n=i;
+            break;
+        }
+    }
+    return n;
+}
+struct ListNode* insertGreatestCommonDivisors(struct ListNode* head) {
+    struct ListNode* cur=head;
+    while(cur&&cur->next)
+    {
+        struct ListNode* next=cur->next;
+        int m=BigNums(cur->val,next->val);
+        struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+        ret->val=m;
+        ret->next=next;
+        cur->next=ret;
+        cur=next;
+    }
+    return head;
+}
