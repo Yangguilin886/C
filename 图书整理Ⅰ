@@ -1,0 +1,25 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+int* reverseBookList(struct ListNode* head, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*10000);
+    int n=0;
+    struct ListNode* cur=head;
+    while(cur)
+    {
+        ret[n++]=cur->val;
+        cur=cur->next;
+    }
+    int left=0,right=n-1;
+    while(left<right)
+    {
+        Swap(&ret[left],&ret[right]);
+        left++;
+        right--;
+    }
+    *returnSize=n;
+    return ret;
+}
