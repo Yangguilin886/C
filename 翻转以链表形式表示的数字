@@ -1,0 +1,31 @@
+void ReturnList(struct ListNode* ret,int* flag)
+{
+    if(ret==NULL)
+    {
+        return;
+    }
+    ReturnList(ret->next,flag);
+    int m=ret->val*2+*flag;
+    if(m>=10)
+    {
+        *flag=m/10;
+        m%=10;
+    }
+    else
+    {
+        *flag=0;
+    }
+    ret->val=m;
+}
+struct ListNode* doubleIt(struct ListNode* head) {
+    struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+    ret->val=0;
+    ret->next=head;
+    int flag=0;
+    ReturnList(ret,&flag);
+    if(ret->val==0)
+    {
+        return ret->next;
+    }
+    return ret;
+}
