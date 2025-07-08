@@ -1,0 +1,76 @@
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* cur = l1;
+    struct ListNode* prev = l2;
+    int flag = 0;
+    while (cur && prev) {
+        int n = cur->val + prev->val + flag;
+        if (n >= 10) {
+            flag = n / 10;
+        } else {
+            flag = 0;
+        }
+        cur->val = n % 10;
+        prev->val = n % 10;
+        cur = cur->next;
+        prev = prev->next;
+    }
+    if (cur) {
+        struct ListNode* qiet=cur;
+        while (cur) {
+            int n = cur->val + flag;
+            if (n >= 10) {
+                flag = n / 10;
+            } else {
+                flag = 0;
+            }
+            cur->val = n % 10;
+            qiet=cur;
+            cur = cur->next;
+        }
+        if(flag>0)
+        {
+            struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+            qiet->next=ret;
+            ret->val=flag;
+            ret->next=NULL;
+        }
+        return l1;
+    } else if(prev){
+        struct ListNode* qiet=prev;
+        while (prev) {
+            int n = prev->val + flag;
+            if (n >= 10) {
+                flag = n / 10;
+            } else {
+                flag = 0;
+            }
+            prev->val = n % 10;
+            qiet=prev;
+            prev = prev->next;
+        }
+        if(flag>0)
+        {
+            struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+            qiet->next=ret;
+            ret->val=flag;
+            ret->next=NULL;
+        }
+        return l2;
+    }
+    else
+    {
+        if(flag>0)
+        {
+            cur=l1;
+            while(cur->next)
+            {
+                cur=cur->next;
+            }
+            struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+            ret->val=flag;
+            ret->next=NULL;
+            cur->next=ret;
+        }
+        return l1;
+    }
+}
