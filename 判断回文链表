@@ -1,0 +1,53 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+bool isPalindrome(struct ListNode* head) {
+    if(head==NULL||head->next==NULL)
+    {
+        return true;
+    }
+    struct ListNode* fast=head->next;
+    struct ListNode* slow=head;
+    while(fast&&fast->next)
+    {
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    struct ListNode* cur=slow->next;
+    int ret[100000];
+    int n=0;
+    while(cur)
+    {
+        ret[n++]=cur->val;
+        cur=cur->next;
+    }
+    cur=slow->next;
+    int left=0,right=n-1;
+    while(left<right)
+    {
+        Swap(&ret[left],&ret[right]);
+        left++;
+        right--;
+    }
+    n=0;
+    while(cur)
+    {
+        cur->val=ret[n++];
+        cur=cur->next;
+    }
+    slow=slow->next;
+    fast=head;
+    while(slow)
+    {
+        if(fast->val!=slow->val)
+        {
+            return false;
+        }
+        fast=fast->next;
+        slow=slow->next;
+    }
+    return true;
+}
