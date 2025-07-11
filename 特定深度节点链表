@@ -1,0 +1,38 @@
+struct ListNode** listOfDepth(struct TreeNode* tree, int* returnSize) {
+    struct ListNode** ret=(struct ListNode**)malloc(sizeof(struct ListNode*)*10000);
+    *returnSize=0;
+    if(tree==NULL)
+    {
+        return ret;
+    }
+    struct TreeNode* queue[10000];
+    int head=0,tail=0;
+    queue[tail++]=tree;
+    while(head!=tail)
+    {
+        int start=head;
+        head=tail;
+        struct ListNode* tmp=(struct ListNode*)malloc(sizeof(struct ListNode));
+        tmp->val=0;
+        tmp->next=NULL;
+        struct ListNode* cur=tmp;
+        for(int i=start;i<head;i++)
+        {
+            if(queue[i]->left)
+            {
+                queue[tail++]=queue[i]->left;
+            }
+            if(queue[i]->right)
+            {
+                queue[tail++]=queue[i]->right;
+            }
+            struct ListNode* prev=(struct ListNode*)malloc(sizeof(struct ListNode));
+            prev->val=queue[i]->val;
+            prev->next=NULL;
+            cur->next=prev;
+            cur=cur->next;
+        }
+        ret[(*returnSize)++]=tmp->next;
+    }
+    return ret;
+}
