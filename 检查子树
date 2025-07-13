@@ -1,0 +1,42 @@
+bool SameTree(struct TreeNode* t1,struct TreeNode* t2)
+{
+    if(t1==NULL&&t2==NULL)
+    {
+        return true;
+    }
+    if(t1==NULL||t2==NULL)
+    {
+        return false;
+    }
+    if(t1->val!=t2->val)
+    {
+        return false;
+    }
+    return SameTree(t1->left,t2->left)&&SameTree(t1->right,t2->right);
+}
+void preorder(struct TreeNode* t1,struct TreeNode* t2,int* flag)
+{
+    if(t1==NULL)
+    {
+        return;
+    }
+    if(SameTree(t1,t2))
+    {
+        *flag=1;
+    }
+    if(*flag==1)
+    {
+        return;
+    }
+    preorder(t1->left,t2,flag);
+    preorder(t1->right,t2,flag);
+}
+bool checkSubTree(struct TreeNode* t1, struct TreeNode* t2) {
+    int flag=0;
+    preorder(t1,t2,&flag);
+    if(flag==1)
+    {
+        return true;
+    }
+    return false;
+}
