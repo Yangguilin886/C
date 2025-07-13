@@ -1,0 +1,30 @@
+void NumTree(struct TreeNode* root,int sum,int* flag,int n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    n+=root->val;
+    if(n==sum)
+    {
+        (*flag)++;
+    }
+    NumTree(root->left,sum,flag,n);
+    NumTree(root->right,sum,flag,n);
+}
+void preorder(struct TreeNode* root,int sum,int* flag)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    int n=0;
+    NumTree(root,sum,flag,n);
+    preorder(root->left,sum,flag);
+    preorder(root->right,sum,flag);
+}
+int pathSum(struct TreeNode* root, int sum) {
+    int flag=0;
+    preorder(root,sum,&flag);
+    return flag;
+}
