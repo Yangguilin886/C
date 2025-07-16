@@ -1,0 +1,47 @@
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p1-*(int*)p2;
+}
+int** minimumAbsDifference(int* arr, int arrSize, int* returnSize, int** returnColumnSizes) {
+    int** ret=(int**)malloc(sizeof(int*)*100000);
+    *returnSize=0;
+    qsort(arr,arrSize,sizeof(int),compare);
+    int flag=1000000;
+    for(int i=0;i<arrSize;i++)
+    {
+        for(int j=i+1;j<arrSize;j++)
+        {
+            if(arr[j]-arr[i]<flag)
+            {
+                flag=arr[j]-arr[i];
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    for(int i=0;i<arrSize-1;i++)
+    {
+        for(int j=i+1;j<arrSize;j++)
+        {
+            if(arr[j]-arr[i]==flag)
+            {
+                int* tmp=(int*)malloc(sizeof(int)*2);
+                tmp[0]=arr[i];
+                tmp[1]=arr[j];
+                ret[(*returnSize)++]=tmp;
+            }
+            if(arr[j]-arr[i]>flag)
+            {
+                break;
+            }
+        }
+    }
+    *returnColumnSizes=malloc(sizeof(int)*(*returnSize));
+    for(int i=0;i<*returnSize;i++)
+    {
+        (*returnColumnSizes)[i]=2;
+    }
+    return ret;
+}
