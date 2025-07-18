@@ -1,0 +1,22 @@
+#include <stdio.h>
+int main()
+{
+    int n=0;
+    scanf("%d",&n);
+    int flag=0;
+    for(int i=1;i<=n;i++)
+    {
+        int a=1;
+        int m=i;
+        while(m>0)
+        {
+            m/=10;
+            a*=10;
+        }
+        if(i==(i*i)%a)
+        {
+            flag++;
+        }
+    }
+    printf("%d\n",flag+1);
+}
