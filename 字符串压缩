@@ -1,0 +1,68 @@
+char* compressString(char* S) {
+    char* ret=(char*)malloc(sizeof(char)*500000);
+    int n=strlen(S);
+    int m=0;
+    for(int i=0;i<n;i++)
+    {
+        int j=i+1;
+        int flag=1;
+        ret[m++]=S[i];
+        while(j<n)
+        {
+            if(S[j]!=S[i])
+            {
+                
+                if(flag>9)
+                {
+                    int nums[10000];
+                    int b=0;
+                    while(flag>0)
+                    {
+                        nums[b++]=flag%10;
+                        flag/=10;
+                    }
+                    for(int k=b-1;k>=0;k--)
+                    {
+                        ret[m++]=nums[k]+'0';
+                    }
+                }
+                else
+                {
+                    ret[m++]=flag+'0';
+                }
+                break;
+            }
+            flag++;
+            j++;
+            i++;
+        }
+        if(j==n)
+        {
+            if(flag>9)
+                {
+                    int nums[10000];
+                    int b=0;
+                    while(flag>0)
+                    {
+                        nums[b++]=flag%10;
+                        flag/=10;
+                    }
+                    for(int k=b-1;k>=0;k--)
+                    {
+                        ret[m++]=nums[k]+'0';
+                    }
+                }
+                else
+                {
+                    ret[m++]=flag+'0';
+                }
+        }
+    }
+    ret[m]='\0';
+    int a=strlen(ret);
+    if(a>=n)
+    {
+        return S;
+    }
+    return ret;
+}
