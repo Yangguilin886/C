@@ -1,0 +1,7 @@
+int exchangeBits(int num) {
+    int n=0b10101010101010101010101010101010;
+    int m=0b01010101010101010101010101010101;
+    int a=(num&n)>>1;
+    int b=(num&m)<<1;
+    return a|b;
+}
