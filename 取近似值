@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main() {
+    double n=0;
+    scanf("%lf",&n);
+    int m=0;
+    m=n/1;
+    if(n-m>=0.5)
+    {
+        m++;
+    }
+    printf("%d\n",m);
+    return 0;
+}
