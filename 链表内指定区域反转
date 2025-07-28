@@ -1,0 +1,31 @@
+void Swap(int* p1,int* p2)
+{
+    int tmp=*p1;
+    *p1=*p2;
+    *p2=tmp;
+}
+struct ListNode* reverseBetween(struct ListNode* head, int m, int n ) {
+    int ret[1000];
+    struct ListNode* cur=head;
+    int sub=0;
+    while(cur)
+    {
+        ret[sub++]=cur->val;
+        cur=cur->next;
+    }
+    int left=m-1,right=n-1;
+    while(left<right)
+    {
+        Swap(&ret[left],&ret[right]);
+        left++;
+        right--;
+    }
+    cur=head;
+    int i=0;
+    while(cur)
+    {
+        cur->val=ret[i++];
+        cur=cur->next;
+    }
+    return head;
+}
