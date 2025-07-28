@@ -1,0 +1,23 @@
+struct ListNode* removeZeroSumSublists(struct ListNode* head) {
+    struct ListNode* ret=(struct ListNode*)malloc(sizeof(struct ListNode));
+    ret->next=head;
+    struct ListNode* p=ret;
+    struct ListNode* q=ret->next;
+    int x=0;
+    while(p)
+    {
+        x=0;
+        q=p->next;
+        while(q)
+        {
+            x-=q->val;
+            if(x==0)
+            {
+                p->next=q->next;
+            }
+            q=q->next;
+        }
+        p=p->next;
+    }
+    return ret->next;
+}
