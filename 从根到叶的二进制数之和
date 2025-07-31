@@ -1,0 +1,26 @@
+void preorder(struct TreeNode* root,int* ret,int n,int* flag)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    ret[n++]=root->val;
+    if(root->left==NULL&&root->right==NULL)
+    {
+        int m=0;
+        for(int i=n-1;i>=0;i--)
+        {
+            m+=ret[i]*pow(2,n-i-1);
+        }
+        *flag+=m;
+    }
+    preorder(root->left,ret,n,flag);
+    preorder(root->right,ret,n,flag);
+}
+int sumRootToLeaf(struct TreeNode* root) {
+    int flag=0;
+    int* ret=(int*)malloc(sizeof(int)*1000);
+    int n=0;
+    preorder(root,ret,n,&flag);
+    return flag;
+}
