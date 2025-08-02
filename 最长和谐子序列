@@ -1,0 +1,36 @@
+int compare(const void* p1,const void* p2)
+{
+    return *(int*)p1-*(int*)p2;
+}
+int findLHS(int* nums, int numsSize) {
+    int flag=0,count=0,max=0;
+    qsort(nums,numsSize,sizeof(int),compare);
+    for(int i=0;i<numsSize;i++)
+    {
+        int j=i;
+        while(j<numsSize)
+        {
+            if(nums[j]-nums[i]==0)
+            {
+                count++;
+            }
+            else if(nums[j]-nums[i]==1)
+            {
+                flag=1;
+                count++;
+            }
+            else
+            {
+                break;
+            }
+            j++;
+        }
+        if(flag)
+        {
+            max=fmax(max,count);
+        }
+        count=0;
+        flag=0;
+    }
+    return max;
+}
