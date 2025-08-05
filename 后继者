@@ -1,0 +1,30 @@
+void preorder(struct TreeNode* root,struct TreeNode** ret,int* n)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    preorder(root->left,ret,n);
+    ret[(*n)++]=root;
+    preorder(root->right,ret,n);
+}
+struct TreeNode* inorderSuccessor(struct TreeNode* root, struct TreeNode* p){
+    int n=0;
+    struct TreeNode** ret=(struct TreeNode**)malloc(sizeof(struct TreeNode*)*10000);
+    preorder(root,ret,&n);
+    for(int i=0;i<n;i++)
+    {
+        if(ret[i]==p)
+        {
+            if(i+1<n)
+            {
+                return ret[i+1];
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+    }
+    return NULL;
+}
