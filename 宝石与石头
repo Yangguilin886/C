@@ -1,0 +1,26 @@
+int numJewelsInStones(char* jewels, char* stones) {
+    int n1=strlen(jewels),n2=strlen(stones);
+    int* ret1=(int*)malloc(sizeof(int)*58);
+    int* ret2=(int*)malloc(sizeof(int)*58);
+    memset(ret1,0,58*sizeof(int));
+    memset(ret2,0,58*sizeof(int));
+    for(int i=0;i<n1;i++)
+    {
+        int m=jewels[i]-'A';
+        ret1[m]++;
+    }
+    for(int i=0;i<n2;i++)
+    {
+        int m=stones[i]-'A';
+        ret2[m]++;
+    }
+    int flag=0;
+    for(int i=0;i<58;i++)
+    {
+        if(ret1[i]!=0)
+        {
+            flag+=ret2[i];
+        }
+    }
+    return flag;
+}
