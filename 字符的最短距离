@@ -1,0 +1,26 @@
+int findnum(char* s,char c,int n,int max)
+{
+    for(int i=n;i<max;i++)
+    {
+        if(s[i]==c)
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+int* shortestToChar(char* s, char c, int* returnSize) {
+    int* ret=(int*)malloc(sizeof(int)*10000);
+    int max=strlen(s);
+    int prev=findnum(s,c,0,max);
+    *returnSize=0;
+    for(int i=0;i<max;i++)
+    {
+        if(abs(i-prev)>abs(i-findnum(s,c,i,max)))
+        {
+            prev=findnum(s,c,i,max);
+        }
+        ret[(*returnSize)++]=abs(i-prev);
+    }
+    return ret;
+}
