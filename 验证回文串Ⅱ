@@ -1,0 +1,31 @@
+bool reverse(char* s,int left,int right)
+{
+    while(left<right)
+    {
+        if(s[left]!=s[right])
+        {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+bool validPalindrome(char* s) {
+    int flag=0;
+    int left=0,right=strlen(s)-1;
+    while(left<right)
+    {
+        if(s[left]!=s[right]&&flag!=0)
+        {
+            return false;
+        }
+        if(flag==0&&s[left]!=s[right])
+        {
+            return reverse(s,left+1,right)||reverse(s,left,right-1);
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
